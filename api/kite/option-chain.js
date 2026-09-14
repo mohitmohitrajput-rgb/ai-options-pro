@@ -1,6 +1,5 @@
 export default async function handler(req, res) {
 
-  // Allow frontend to call this API
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -22,9 +21,9 @@ export default async function handler(req, res) {
 
   try {
 
-    // ------------------------------------------------
+    // ---------------------------------------------
     // 1. Get saved Kite access token
-    // ------------------------------------------------
+    // ---------------------------------------------
 
     const sessionResponse = await fetch(
       `${supabaseUrl}/rest/v1/kite_sessions?id=eq.1&select=access_token,login_at`,
@@ -55,19 +54,12 @@ export default async function handler(req, res) {
     const accessToken = sessions[0].access_token;
 
 
-    // ------------------------------------------------
-    // 2. Get BANKNIFTY current price
-    // ------------------------------------------------
-
-    const bankParams = new URLSearchParams();
-
-    bankParams.append(
-      "i",
-      "NSE:NIFTY BANK"
-    );
+    // ---------------------------------------------
+    // 2. Get BANKNIFTY LTP
+    // ---------------------------------------------
 
     const bankResponse = await fetch(
-      `https://api.kite.trade/quote/ltp?${bankParams.toString()}`,
+      "https://api.kite.trade/quote/ltp?i=NSE%3ANIFTY%20BANK",
       {
         method: "GET",
         headers: {
@@ -99,9 +91,9 @@ export default async function handler(req, res) {
       );
 
 
-    // ------------------------------------------------
-    // 3. Download NFO instrument list
-    // ------------------------------------------------
+    // ---------------------------------------------
+    // 3. Download latest NFO instruments
+    // ---------------------------------------------
 
     const instrumentResponse =
       await fetch(
@@ -119,12 +111,12 @@ export default async function handler(req, res) {
       await instrumentResponse.text();
 
 
-    // ------------------------------------------------
-    // 4. Parse instrument CSV
-    // ------------------------------------------------
+    // ---------------------------------------------
+    // 4. Parse CSV
+    // ---------------------------------------------
 
     const lines =
-      csv.trim().split("\n");
+      csv.trim().split(/\r?\n/);
 
     if (lines.length < 2) {
       return res.status(500).json({
@@ -136,13 +128,11 @@ export default async function handler(req, res) {
     const headers =
       lines[0].split(",");
 
-    const column = {};
+    const col = {};
 
-    headers.forEach(
-      (header, index) => {
-        column[header.trim()] = index;
-      }
-    );
+    headers.forEach((header, index) => {
+      col[header.trim()] = index;
+    });
 
 
     const instruments = [];
@@ -156,105 +146,170 @@ export default async function handler(req, res) {
         continue;
       }
 
+      const tradingsymbol =
+        String(
+          row[col.tradingsymbol] || ""
+        ).replace(/"/g, "").trim();
+
+      const expiry =
+        String(
+          row[col.expiry] || ""
+        ).replace(/"/g, "").trim();
+
+      const strike =
+        Number(
+          String(
+            row[col.strike] || ""
+          ).replace(/"/g, "").trim()
+        );
+
+      const instrumentType =
+        String(
+          row[col.instrument_type] || ""
+        ).replace(/"/g, "").trim();
+
+      const segment =
+        String(
+          row[col.segment] || ""
+        ).replace(/"/g, "").trim();
+
+
       instruments.push({
+
         instrument_token:
-          row[column.instrument_token],
+          String(
+            row[col.instrument_token] || ""
+          ).replace(/"/g, "").trim(),
 
-        tradingsymbol:
-          row[column.tradingsymbol],
+        tradingsymbol,
 
-        name:
-          row[column.name],
+        expiry,
 
-        expiry:
-          row[column.expiry],
-
-        strike:
-          Number(row[column.strike]),
+        strike,
 
         instrument_type:
-          row[column.instrument_type],
+          instrumentType,
 
-        segment:
-          row[column.segment]
+        segment
+
       });
+
     }
 
 
-    // ------------------------------------------------
-    // 5. Find BANKNIFTY options
-    // ------------------------------------------------
+    // ---------------------------------------------
+    // 5. Find BANKNIFTY option contracts
+    // ---------------------------------------------
+    // We use tradingsymbol instead of "name"
+    // because the name field may contain quotes.
 
     const bankOptions =
       instruments.filter(item =>
-        item.name === "BANKNIFTY" &&
+
         item.segment === "NFO-OPT" &&
+
         (
           item.instrument_type === "CE" ||
           item.instrument_type === "PE"
-        )
+        ) &&
+
+        item.tradingsymbol
+          .toUpperCase()
+          .startsWith("BANKNIFTY")
+
       );
 
+
     if (!bankOptions.length) {
+
       return res.status(404).json({
         status: "error",
-        message: "BANKNIFTY option contracts not found"
+        message:
+          "BANKNIFTY option contracts not found",
+        diagnostic: {
+          total_nfo_instruments:
+            instruments.length,
+          sample:
+            instruments.slice(0, 3)
+        }
       });
+
     }
 
 
-    // ------------------------------------------------
-    // 6. Get current India date
-    // ------------------------------------------------
+    // ---------------------------------------------
+    // 6. Current Indian date
+    // ---------------------------------------------
 
-    const indiaTime =
+    const indiaNow =
       new Date(
-        Date.now() + (5.5 * 60 * 60 * 1000)
+        Date.now() +
+        (5.5 * 60 * 60 * 1000)
       );
 
     const today =
-      indiaTime.toISOString()
+      indiaNow
+        .toISOString()
         .slice(0, 10);
 
 
-    // ------------------------------------------------
-    // 7. Find nearest expiry
-    // ------------------------------------------------
+    // ---------------------------------------------
+    // 7. Find upcoming expiries
+    // ---------------------------------------------
 
-    const expiries =
+    const expiryList =
       [
         ...new Set(
           bankOptions
             .map(x => x.expiry)
-            .filter(x => x >= today)
+            .filter(
+              expiry =>
+                expiry &&
+                expiry >= today
+            )
         )
-      ]
-      .sort();
+      ].sort();
 
 
-    if (!expiries.length) {
+    if (!expiryList.length) {
+
       return res.status(404).json({
         status: "error",
-        message: "No upcoming BANKNIFTY expiry found"
+        message:
+          "No upcoming BANKNIFTY expiry found",
+        today,
+        available_expiries:
+          [
+            ...new Set(
+              bankOptions
+                .map(x => x.expiry)
+            )
+          ]
+            .sort()
+            .slice(0, 20)
       });
+
     }
 
+
     const nearestExpiry =
-      expiries[0];
+      expiryList[0];
 
 
-    // ------------------------------------------------
-    // 8. Select contracts for nearest expiry
-    // ------------------------------------------------
+    // ---------------------------------------------
+    // 8. Select nearest expiry
+    // ---------------------------------------------
 
     const expiryOptions =
       bankOptions.filter(
-        x => x.expiry === nearestExpiry
+        item =>
+          item.expiry === nearestExpiry
       );
 
 
-    // BANKNIFTY strikes are generally in 100-point steps.
-    // Round current price to nearest 100.
+    // ---------------------------------------------
+    // 9. Calculate ATM
+    // ---------------------------------------------
 
     const atmStrike =
       Math.round(
@@ -262,9 +317,11 @@ export default async function handler(req, res) {
       ) * 100;
 
 
-    // Take ±10 strikes = 21 strikes
-    const selectedStrikes =
-      [];
+    // ---------------------------------------------
+    // 10. Select ATM ± 10 strikes
+    // ---------------------------------------------
+
+    const selectedStrikes = [];
 
     for (
       let i = -10;
@@ -281,35 +338,41 @@ export default async function handler(req, res) {
 
     const selectedContracts =
       expiryOptions.filter(
-        option =>
+        item =>
           selectedStrikes.includes(
-            option.strike
+            item.strike
           )
       );
 
 
-    // ------------------------------------------------
-    // 9. Create Kite quote symbols
-    // ------------------------------------------------
+    if (!selectedContracts.length) {
 
-    const quoteSymbols =
-      selectedContracts.map(
-        option =>
-          `NFO:${option.tradingsymbol}`
-      );
-
-
-    if (!quoteSymbols.length) {
       return res.status(404).json({
         status: "error",
-        message: "No BANKNIFTY option contracts selected"
+        message:
+          "No contracts found around ATM",
+        banknifty,
+        atm_strike: atmStrike,
+        expiry: nearestExpiry
       });
+
     }
 
 
-    // ------------------------------------------------
-    // 10. Get full quotes
-    // ------------------------------------------------
+    // ---------------------------------------------
+    // 11. Create quote symbols
+    // ---------------------------------------------
+
+    const quoteSymbols =
+      selectedContracts.map(
+        item =>
+          `NFO:${item.tradingsymbol}`
+      );
+
+
+    // ---------------------------------------------
+    // 12. Get full quotes
+    // ---------------------------------------------
 
     const quoteParams =
       new URLSearchParams();
@@ -358,119 +421,124 @@ export default async function handler(req, res) {
     }
 
 
-    // ------------------------------------------------
-    // 11. Build clean option chain
-    // ------------------------------------------------
+    // ---------------------------------------------
+    // 13. Build option chain
+    // ---------------------------------------------
 
     const chain =
-      selectedStrikes.map(
-        strike => {
+      selectedStrikes.map(strike => {
 
-          const ce =
-            selectedContracts.find(
-              x =>
-                x.strike === strike &&
-                x.instrument_type === "CE"
-            );
+        const ce =
+          selectedContracts.find(
+            item =>
+              item.strike === strike &&
+              item.instrument_type === "CE"
+          );
 
-          const pe =
-            selectedContracts.find(
-              x =>
-                x.strike === strike &&
-                x.instrument_type === "PE"
-            );
-
-
-          const ceQuote =
-            ce
-              ? quoteData.data[
-                  `NFO:${ce.tradingsymbol}`
-                ]
-              : null;
+        const pe =
+          selectedContracts.find(
+            item =>
+              item.strike === strike &&
+              item.instrument_type === "PE"
+          );
 
 
-          const peQuote =
-            pe
-              ? quoteData.data[
-                  `NFO:${pe.tradingsymbol}`
-                ]
-              : null;
+        const ceQuote =
+          ce
+            ? quoteData.data[
+                `NFO:${ce.tradingsymbol}`
+              ]
+            : null;
 
 
-          return {
-
-            strike,
-
-            CE: ceQuote
-              ? {
-                  symbol:
-                    ce.tradingsymbol,
-
-                  ltp:
-                    ceQuote.last_price,
-
-                  volume:
-                    ceQuote.volume,
-
-                  oi:
-                    ceQuote.oi,
-
-                  oi_day_high:
-                    ceQuote.oi_day_high,
-
-                  oi_day_low:
-                    ceQuote.oi_day_low
-                }
-              : null,
-
-            PE: peQuote
-              ? {
-                  symbol:
-                    pe.tradingsymbol,
-
-                  ltp:
-                    peQuote.last_price,
-
-                  volume:
-                    peQuote.volume,
-
-                  oi:
-                    peQuote.oi,
-
-                  oi_day_high:
-                    peQuote.oi_day_high,
-
-                  oi_day_low:
-                    peQuote.oi_day_low
-                }
-              : null
-          };
-
-        }
-      );
+        const peQuote =
+          pe
+            ? quoteData.data[
+                `NFO:${pe.tradingsymbol}`
+              ]
+            : null;
 
 
-    // ------------------------------------------------
-    // 12. Return option chain
-    // ------------------------------------------------
+        return {
+
+          strike,
+
+          CE: ceQuote
+            ? {
+                symbol:
+                  ce.tradingsymbol,
+
+                ltp:
+                  ceQuote.last_price,
+
+                volume:
+                  ceQuote.volume,
+
+                oi:
+                  ceQuote.oi,
+
+                oi_day_high:
+                  ceQuote.oi_day_high,
+
+                oi_day_low:
+                  ceQuote.oi_day_low
+              }
+            : null,
+
+          PE: peQuote
+            ? {
+                symbol:
+                  pe.tradingsymbol,
+
+                ltp:
+                  peQuote.last_price,
+
+                volume:
+                  peQuote.volume,
+
+                oi:
+                  peQuote.oi,
+
+                oi_day_high:
+                  peQuote.oi_day_high,
+
+                oi_day_low:
+                  peQuote.oi_day_low
+              }
+            : null
+
+        };
+
+      });
+
+
+    // ---------------------------------------------
+    // 14. Return data
+    // ---------------------------------------------
 
     return res.status(200).json({
 
       status: "success",
 
-      underlying: "BANKNIFTY",
+      underlying:
+        "BANKNIFTY",
 
       banknifty,
 
-      atm_strike: atmStrike,
+      atm_strike:
+        atmStrike,
 
-      expiry: nearestExpiry,
+      expiry:
+        nearestExpiry,
 
-      strikes: selectedStrikes,
+      strikes:
+        selectedStrikes,
 
-      count: chain.length,
+      count:
+        chain.length,
 
-      data: chain,
+      data:
+        chain,
 
       updated_at:
         new Date().toISOString()
@@ -490,7 +558,10 @@ export default async function handler(req, res) {
       status: "error",
 
       message:
-        "Option chain request failed"
+        "Option chain request failed",
+
+      detail:
+        error.message
 
     });
 
