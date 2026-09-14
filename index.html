@@ -1,214 +1,590 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>AI Options Pro</title>
 
+
   <style>
+
     * {
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
+
       background: #0b1020;
+
       color: #ffffff;
-      font-family: Arial, sans-serif;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     }
+
 
     .app {
-      max-width: 700px;
+
+      max-width: 760px;
+
       margin: auto;
+
       padding: 16px;
+
+      padding-bottom: 80px;
+
     }
+
 
     h1 {
+
       margin: 0;
-      font-size: 25px;
+
+      font-size: 26px;
+
     }
+
 
     .subtitle {
+
       color: #9ca3af;
+
       margin-top: 5px;
+
       font-size: 13px;
+
     }
+
 
     .mode {
+
       display: inline-block;
+
       margin-top: 10px;
-      padding: 6px 10px;
+
+      padding: 7px 12px;
+
       border-radius: 20px;
+
       background: #172033;
+
       color: #60a5fa;
+
       font-size: 12px;
+
+      font-weight: bold;
+
     }
+
 
     .tabs {
+
       display: flex;
+
       gap: 8px;
+
       margin: 20px 0;
+
     }
+
 
     .tab {
+
       flex: 1;
-      padding: 12px;
-      border: 0;
-      border-radius: 10px;
-      background: #151d31;
-      color: #aaa;
+
+      padding: 13px;
+
+      border: 1px solid #263650;
+
+      border-radius: 12px;
+
+      background: #111827;
+
+      color: #9ca3af;
+
       font-weight: bold;
+
+      font-size: 15px;
+
     }
+
 
     .tab.active {
-      background: #2563eb;
-      color: white;
+
+      background: #243957;
+
+      color: #ffffff;
+
     }
+
 
     .card {
+
       background: #111827;
-      border: 1px solid #202b40;
-      border-radius: 15px;
-      padding: 16px;
-      margin-bottom: 14px;
+
+      border: 1px solid #24344e;
+
+      border-radius: 18px;
+
+      padding: 18px;
+
+      margin-bottom: 15px;
+
     }
+
 
     .label {
+
       color: #9ca3af;
-      font-size: 12px;
+
+      font-size: 13px;
+
+      font-weight: 500;
+
     }
+
 
     .price {
-      font-size: 28px;
+
+      font-size: 32px;
+
       font-weight: bold;
-      margin-top: 5px;
+
+      margin-top: 6px;
+
     }
 
-    .green {
-      color: #22c55e;
-    }
-
-    .yellow {
-      color: #facc15;
-    }
-
-    .red {
-      color: #ef4444;
-    }
 
     .status {
-      margin-top: 10px;
-      font-size: 13px;
-    }
 
-    button {
-      border: 0;
-      border-radius: 10px;
-      padding: 12px 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .refresh {
-      background: #2563eb;
-      color: white;
-      width: 100%;
       margin-top: 12px;
+
+      font-size: 14px;
+
     }
 
-    .signal {
-      text-align: center;
-      font-size: 30px;
-      font-weight: bold;
-      margin: 10px 0;
+
+    .green {
+
+      color: #4ade80;
+
     }
 
-    .score {
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
+
+    .yellow {
+
+      color: #facc15;
+
     }
 
-    .chain-wrap {
-      overflow-x: auto;
-      margin-top: 12px;
+
+    .red {
+
+      color: #f87171;
+
     }
 
-    table {
-      width: 100%;
-      min-width: 620px;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
-
-    th {
-      background: #1f2937;
-      padding: 9px 6px;
-      color: #cbd5e1;
-    }
-
-    td {
-      padding: 8px 6px;
-      border-bottom: 1px solid #263246;
-      text-align: center;
-    }
-
-    tr.atm {
-      background: rgba(37, 99, 235, 0.25);
-      font-weight: bold;
-    }
-
-    .ce {
-      color: #60a5fa;
-    }
-
-    .pe {
-      color: #f472b6;
-    }
 
     .small {
+
       font-size: 11px;
+
       color: #94a3b8;
-    }
 
-    input {
-      width: 100%;
-      padding: 12px;
       margin-top: 8px;
-      border-radius: 9px;
-      border: 1px solid #334155;
-      background: #0f172a;
-      color: white;
+
     }
 
-    .hidden {
-      display: none;
+
+    button {
+
+      border: 0;
+
+      cursor: pointer;
+
     }
+
+
+    .refresh {
+
+      width: 100%;
+
+      padding: 14px;
+
+      margin-top: 14px;
+
+      border-radius: 12px;
+
+      background: #263b60;
+
+      color: #ffffff;
+
+      font-size: 15px;
+
+      font-weight: bold;
+
+    }
+
+
+    .refresh:active {
+
+      opacity: 0.75;
+
+    }
+
+
+    .signal {
+
+      text-align: center;
+
+      font-size: 42px;
+
+      font-weight: bold;
+
+      margin-top: 12px;
+
+    }
+
+
+    .score {
+
+      text-align: center;
+
+      font-size: 23px;
+
+      font-weight: bold;
+
+      margin-top: 4px;
+
+    }
+
 
     .reason {
-      line-height: 1.6;
-      color: #cbd5e1;
+
+      line-height: 1.65;
+
+      color: #d1d5db;
+
+      font-size: 14px;
+
     }
+
+
+    .metric-grid {
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+
+      margin-top: 15px;
+
+    }
+
+
+    .metric {
+
+      background: #0d1526;
+
+      border-radius: 12px;
+
+      padding: 13px;
+
+    }
+
+
+    .metric-title {
+
+      color: #9ca3af;
+
+      font-size: 11px;
+
+      margin-bottom: 5px;
+
+    }
+
+
+    .metric-value {
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+    }
+
+
+    .chain-container {
+
+      margin-top: 15px;
+
+      overflow-x: auto;
+
+      border-radius: 12px;
+
+      -webkit-overflow-scrolling: touch;
+
+    }
+
+
+    table {
+
+      width: 100%;
+
+      min-width: 570px;
+
+      border-collapse: collapse;
+
+      font-size: 11px;
+
+    }
+
+
+    th {
+
+      background: #222c3d;
+
+      color: #d1d5db;
+
+      padding: 10px 5px;
+
+      white-space: nowrap;
+
+    }
+
+
+    td {
+
+      padding: 9px 5px;
+
+      text-align: center;
+
+      border-bottom: 1px solid #253149;
+
+      white-space: nowrap;
+
+    }
+
+
+    tbody tr {
+
+      background: #111827;
+
+    }
+
+
+    tbody tr.atm {
+
+      background: rgba(37, 99, 235, 0.30);
+
+      box-shadow:
+        inset 3px 0 0 #60a5fa,
+        inset -3px 0 0 #60a5fa;
+
+    }
+
+
+    .ce {
+
+      color: #60a5fa;
+
+    }
+
+
+    .pe {
+
+      color: #f472b6;
+
+    }
+
+
+    .strike {
+
+      color: #ffffff;
+
+      font-weight: bold;
+
+    }
+
+
+    .chain-header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+
+      margin-top: 8px;
+
+      font-size: 14px;
+
+    }
+
+
+    .atm-badge {
+
+      color: #60a5fa;
+
+    }
+
+
+    .expiry-badge {
+
+      color: #fbbf24;
+
+    }
+
+
+    input,
+    select {
+
+      width: 100%;
+
+      padding: 13px;
+
+      margin-top: 9px;
+
+      border-radius: 10px;
+
+      border: 1px solid #334155;
+
+      background: #0d1526;
+
+      color: #ffffff;
+
+      font-size: 14px;
+
+    }
+
+
+    .hidden {
+
+      display: none;
+
+    }
+
+
+    .section-title {
+
+      font-size: 22px;
+
+      font-weight: bold;
+
+      margin-bottom: 14px;
+
+    }
+
+
+    .footer {
+
+      text-align: center;
+
+      color: #718096;
+
+      font-size: 11px;
+
+      margin-top: 25px;
+
+    }
+
+
+    @media (max-width: 500px) {
+
+      .app {
+
+        padding: 13px;
+
+      }
+
+
+      .card {
+
+        padding: 15px;
+
+      }
+
+
+      .price {
+
+        font-size: 29px;
+
+      }
+
+
+      .signal {
+
+        font-size: 38px;
+
+      }
+
+
+      .metric-grid {
+
+        gap: 8px;
+
+      }
+
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
+
 <div class="app">
 
-  <h1>AI Options Pro</h1>
-  <div class="subtitle">BANKNIFTY / NIFTY AI Trading Assistant</div>
 
-  <div class="mode">PAPER MODE</div>
+  <!-- HEADER -->
+
+  <h1>AI Options Pro</h1>
+
+  <div class="subtitle">
+    AI Options Research & Decision Assistant
+  </div>
+
+  <div class="mode">
+    PAPER MODE
+  </div>
+
+
+  <!-- TABS -->
 
   <div class="tabs">
-    <button class="tab active" onclick="showTab('dashboard', this)">
+
+    <button
+      class="tab active"
+      onclick="showTab('dashboard', this)"
+    >
       Dashboard
     </button>
 
-    <button class="tab" onclick="showTab('ask', this)">
+
+    <button
+      class="tab"
+      onclick="showTab('ask', this)"
+    >
       Ask AI
     </button>
+
   </div>
 
 
@@ -216,47 +592,99 @@
 
   <div id="dashboard">
 
-    <div class="card">
-      <div class="label">BANKNIFTY</div>
-      <div id="bankPrice" class="price">--</div>
 
-      <div id="connection" class="status yellow">
+    <!-- MARKET -->
+
+    <div class="card">
+
+      <div class="label">
+        BANKNIFTY
+      </div>
+
+      <div
+        id="bankPrice"
+        class="price"
+      >
+        --
+      </div>
+
+
+      <div
+        id="connection"
+        class="status yellow"
+      >
         Connecting to Kite...
       </div>
 
+
       <div class="small">
-        Last update: <span id="updated">--</span>
+
+        Last update:
+        <span id="updated">--</span>
+
       </div>
 
-      <button class="refresh" onclick="loadAllData()">
+
+      <button
+        class="refresh"
+        onclick="loadAllData()"
+      >
         🔄 Refresh Market Data
       </button>
+
     </div>
 
 
+    <!-- NIFTY -->
+
     <div class="card">
-      <div class="label">NIFTY 50</div>
-      <div id="niftyPrice" class="price">--</div>
+
+      <div class="label">
+        NIFTY 50
+      </div>
+
+      <div
+        id="niftyPrice"
+        class="price"
+      >
+        --
+      </div>
+
     </div>
 
 
-    <!-- AI SIGNAL -->
+    <!-- AI ANALYSIS -->
 
     <div class="card">
 
-      <div class="label">AI SETUP ANALYSIS</div>
+      <div class="label">
+        AI SETUP ANALYSIS
+      </div>
 
-      <div id="signal" class="signal yellow">
+
+      <div
+        id="signal"
+        class="signal yellow"
+      >
         WAIT
       </div>
 
-      <div id="score" class="score">
+
+      <div
+        id="score"
+        class="score"
+      >
         Score: --
       </div>
 
-      <p id="why" class="reason">
-        Option-chain analysis loading...
-      </p>
+
+      <div
+        id="why"
+        class="reason"
+        style="margin-top:18px;"
+      >
+        Loading market analysis...
+      </div>
 
     </div>
 
@@ -265,38 +693,82 @@
 
     <div class="card">
 
-      <div class="label">BANKNIFTY OPTION CHAIN</div>
-
-      <div style="margin-top:8px;">
-        <b>ATM:</b>
-        <span id="atmStrike">--</span>
-
-        &nbsp;&nbsp;
-
-        <b>Expiry:</b>
-        <span id="expiry">--</span>
+      <div class="label">
+        BANKNIFTY OPTION CHAIN
       </div>
 
-      <div class="chain-wrap">
+
+      <div class="chain-header">
+
+        <div>
+          <b>ATM:</b>
+
+          <span
+            id="atmStrike"
+            class="atm-badge"
+          >
+            --
+          </span>
+        </div>
+
+
+        <div>
+          <b>Expiry:</b>
+
+          <span
+            id="expiry"
+            class="expiry-badge"
+          >
+            --
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="chain-container">
 
         <table>
 
           <thead>
+
             <tr>
-              <th>CE LTP</th>
-              <th>CE OI</th>
-              <th>Strike</th>
-              <th>PE OI</th>
-              <th>PE LTP</th>
+
+              <th class="ce">
+                CE LTP
+              </th>
+
+              <th class="ce">
+                CE OI
+              </th>
+
+              <th>
+                STRIKE
+              </th>
+
+              <th class="pe">
+                PE OI
+              </th>
+
+              <th class="pe">
+                PE LTP
+              </th>
+
             </tr>
+
           </thead>
 
-          <tbody id="optionChainBody">
+
+          <tbody
+            id="optionChainBody"
+          >
 
             <tr>
+
               <td colspan="5">
                 Loading option chain...
               </td>
+
             </tr>
 
           </tbody>
@@ -305,33 +777,146 @@
 
       </div>
 
+
+      <div
+        class="small"
+        style="text-align:center;"
+      >
+        Swipe left/right to view the complete option chain
+      </div>
+
     </div>
 
 
-    <!-- RISK CALCULATOR -->
+    <!-- OI SUMMARY -->
 
     <div class="card">
 
-      <div class="label">RISK CALCULATOR</div>
+      <div class="section-title">
+        OI Analysis
+      </div>
+
+
+      <div class="metric-grid">
+
+
+        <div class="metric">
+
+          <div class="metric-title">
+            PCR
+          </div>
+
+          <div
+            id="pcr"
+            class="metric-value"
+          >
+            --
+          </div>
+
+        </div>
+
+
+        <div class="metric">
+
+          <div class="metric-title">
+            Market Bias
+          </div>
+
+          <div
+            id="bias"
+            class="metric-value"
+          >
+            --
+          </div>
+
+        </div>
+
+
+        <div class="metric">
+
+          <div class="metric-title">
+            CE Resistance
+          </div>
+
+          <div
+            id="resistance"
+            class="metric-value"
+          >
+            --
+          </div>
+
+        </div>
+
+
+        <div class="metric">
+
+          <div class="metric-title">
+            PE Support
+          </div>
+
+          <div
+            id="support"
+            class="metric-value"
+          >
+            --
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+    <!-- RISK -->
+
+    <div class="card">
+
+      <div class="section-title">
+        Risk Calculator
+      </div>
+
+
+      <div class="label">
+        Capital
+      </div>
 
       <input
         id="capital"
         type="number"
-        placeholder="Capital ₹"
+        placeholder="Example: 100000"
       >
+
+
+      <div
+        class="label"
+        style="display:block;margin-top:12px;"
+      >
+        Risk per Trade %
+      </div>
 
       <input
         id="riskPercent"
         type="number"
         value="1"
-        placeholder="Risk %"
+        step="0.1"
+        placeholder="1"
       >
 
-      <button class="refresh" onclick="calculateRisk()">
+
+      <button
+        class="refresh"
+        onclick="calculateRisk()"
+      >
         Calculate Risk
       </button>
 
-      <p id="riskResult" class="reason"></p>
+
+      <p
+        id="riskResult"
+        class="reason"
+      ></p>
 
     </div>
 
@@ -340,182 +925,350 @@
 
     <div class="card">
 
-      <div class="label">HISTORICAL ANALYSIS</div>
+      <div class="section-title">
+        Historical Analysis
+      </div>
 
-      <select
-        id="history"
-        style="
-          width:100%;
-          margin-top:10px;
-          padding:12px;
-          border-radius:9px;
-          background:#0f172a;
-          color:white;
-          border:1px solid #334155;
-        "
-      >
 
-        <option>1 Month</option>
-        <option>3 Months</option>
-        <option>1 Year</option>
-        <option>3 Years</option>
-        <option>5 Years</option>
-        <option>10 Years</option>
+      <select id="history">
+
+        <option value="1M">
+          Last 1 Month
+        </option>
+
+        <option value="3M">
+          Last 3 Months
+        </option>
+
+        <option value="1Y">
+          Last 1 Year
+        </option>
+
+        <option value="3Y">
+          Last 3 Years
+        </option>
+
+        <option value="5Y">
+          Last 5 Years
+        </option>
+
+        <option value="10Y">
+          Last 10 Years
+        </option>
 
       </select>
 
-      <p class="small">
-        Historical backtesting engine will be added next.
-      </p>
+
+      <div class="metric-grid">
+
+
+        <div class="metric">
+
+          <div class="metric-title">
+            Win Rate
+          </div>
+
+          <div class="metric-value">
+            --
+          </div>
+
+        </div>
+
+
+        <div class="metric">
+
+          <div class="metric-title">
+            Profit Factor
+          </div>
+
+          <div class="metric-value">
+            --
+          </div>
+
+        </div>
+
+
+        <div class="metric">
+
+          <div class="metric-title">
+            Max Drawdown
+          </div>
+
+          <div class="metric-value">
+            --
+          </div>
+
+        </div>
+
+
+        <div class="metric">
+
+          <div class="metric-title">
+            Signals
+          </div>
+
+          <div class="metric-value">
+            --
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="small">
+
+        Historical backtesting engine will be
+        connected after the live analysis engine.
+
+      </div>
 
     </div>
+
 
   </div>
 
 
   <!-- ASK AI -->
 
-  <div id="ask" class="hidden">
+  <div
+    id="ask"
+    class="hidden"
+  >
+
 
     <div class="card">
 
-      <div class="label">ASK AI</div>
+      <div class="section-title">
+        Ask AI
+      </div>
+
+
+      <div class="label">
+        Ask about the current setup
+      </div>
+
 
       <input
         id="question"
-        placeholder="Example: Abhi trade lena chahiye?"
+        placeholder="Abhi trade lena chahiye?"
       >
 
-      <button class="refresh" onclick="askAI()">
+
+      <button
+        class="refresh"
+        onclick="askAI()"
+      >
         🤖 Ask AI
       </button>
 
-      <p id="answer" class="reason">
-        Ask me about the current setup.
-      </p>
+
+      <div
+        id="answer"
+        class="reason"
+        style="margin-top:18px;"
+      >
+        Ask me about the current market setup.
+
+      </div>
 
     </div>
 
+
   </div>
+
+
+  <div class="footer">
+
+    Educational decision-support prototype
+    • Not financial advice
+
+  </div>
+
 
 </div>
 
 
+
 <script>
+
+
+/* =====================================================
+   API CONFIGURATION
+===================================================== */
+
 
 const QUOTE_API =
   "https://ai-options-pro-6sl9.vercel.app/api/kite/quote";
+
 
 const OPTION_API =
   "https://ai-options-pro-6sl9.vercel.app/api/kite/option-chain";
 
 
 let marketData = null;
+
 let optionData = null;
 
 
-/* ---------------------------
-   TAB
----------------------------- */
+
+/* =====================================================
+   TAB SWITCH
+===================================================== */
+
 
 function showTab(tab, button) {
 
-  document.getElementById("dashboard")
-    .classList.toggle("hidden", tab !== "dashboard");
 
-  document.getElementById("ask")
-    .classList.toggle("hidden", tab !== "ask");
+  document
+    .getElementById("dashboard")
+    .classList.toggle(
+      "hidden",
+      tab !== "dashboard"
+    );
 
-  document.querySelectorAll(".tab")
-    .forEach(btn => btn.classList.remove("active"));
+
+  document
+    .getElementById("ask")
+    .classList.toggle(
+      "hidden",
+      tab !== "ask"
+    );
+
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(btn => {
+
+      btn.classList.remove("active");
+
+    });
+
 
   button.classList.add("active");
+
 }
 
 
-/* ---------------------------
-   LOAD ALL DATA
----------------------------- */
+
+/* =====================================================
+   LOAD EVERYTHING
+===================================================== */
+
 
 async function loadAllData() {
 
+
   await loadMarketData();
 
+
   await loadOptionChain();
+
 
   calculateSignal();
 
 }
 
 
-/* ---------------------------
+
+/* =====================================================
    MARKET DATA
----------------------------- */
+===================================================== */
+
 
 async function loadMarketData() {
 
+
   try {
+
 
     const response =
       await fetch(QUOTE_API);
 
+
     const result =
       await response.json();
 
-    if (result.status !== "success") {
+
+    if (
+      result.status !== "success"
+    ) {
 
       throw new Error(
-        result.message || "Market data error"
+        result.message ||
+        "Market data error"
       );
 
     }
 
-    marketData = result.data;
+
+    marketData =
+      result.data;
+
 
     const bank =
-      marketData["NSE:NIFTY BANK"].last_price;
+      marketData[
+        "NSE:NIFTY BANK"
+      ].last_price;
+
 
     const nifty =
-      marketData["NSE:NIFTY 50"].last_price;
+      marketData[
+        "NSE:NIFTY 50"
+      ].last_price;
 
 
-    document.getElementById("bankPrice")
+    document
+      .getElementById("bankPrice")
       .innerText =
-      Number(bank).toLocaleString("en-IN", {
-        minimumFractionDigits: 2
-      });
+      formatNumber(bank, 2);
 
 
-    document.getElementById("niftyPrice")
+    document
+      .getElementById("niftyPrice")
       .innerText =
-      Number(nifty).toLocaleString("en-IN", {
-        minimumFractionDigits: 2
-      });
+      formatNumber(nifty, 2);
 
 
-    document.getElementById("connection")
+    document
+      .getElementById("connection")
       .innerText =
       "🟢 Kite Connected";
 
-    document.getElementById("connection")
+
+    document
+      .getElementById("connection")
       .className =
       "status green";
 
 
-    document.getElementById("updated")
+    document
+      .getElementById("updated")
       .innerText =
-      new Date().toLocaleTimeString();
+      new Date()
+        .toLocaleTimeString();
 
 
-  } catch (error) {
+  }
 
-    console.error(error);
+  catch (error) {
 
-    document.getElementById("connection")
+
+    console.error(
+      "Market error:",
+      error
+    );
+
+
+    document
+      .getElementById("connection")
       .innerText =
       "🔴 Market data error";
 
-    document.getElementById("connection")
+
+    document
+      .getElementById("connection")
       .className =
       "status red";
 
@@ -524,21 +1277,36 @@ async function loadMarketData() {
 }
 
 
-/* ---------------------------
+
+/* =====================================================
    OPTION CHAIN
----------------------------- */
+===================================================== */
+
 
 async function loadOptionChain() {
 
+
   const body =
-    document.getElementById("optionChainBody");
+    document
+      .getElementById(
+        "optionChainBody"
+      );
+
 
   try {
 
-    body.innerHTML =
-      `<tr>
-        <td colspan="5">Loading option chain...</td>
-      </tr>`;
+
+    body.innerHTML = `
+
+      <tr>
+
+        <td colspan="5">
+          Loading option chain...
+        </td>
+
+      </tr>
+
+    `;
 
 
     const response =
@@ -549,7 +1317,9 @@ async function loadOptionChain() {
       await response.json();
 
 
-    if (result.status !== "success") {
+    if (
+      result.status !== "success"
+    ) {
 
       throw new Error(
         result.message ||
@@ -559,16 +1329,21 @@ async function loadOptionChain() {
     }
 
 
-    optionData = result;
+    optionData =
+      result;
 
 
-    document.getElementById("atmStrike")
+    document
+      .getElementById("atmStrike")
       .innerText =
-      Number(result.atm_strike)
-        .toLocaleString("en-IN");
+      formatNumber(
+        result.atm_strike,
+        0
+      );
 
 
-    document.getElementById("expiry")
+    document
+      .getElementById("expiry")
       .innerText =
       result.expiry;
 
@@ -578,12 +1353,25 @@ async function loadOptionChain() {
 
     result.data.forEach(row => {
 
+
       const tr =
         document.createElement("tr");
 
 
+      const strike =
+        Number(row.strike);
+
+
+      const ce =
+        row.CE || {};
+
+
+      const pe =
+        row.PE || {};
+
+
       if (
-        Number(row.strike) ===
+        strike ===
         Number(result.atm_strike)
       ) {
 
@@ -592,33 +1380,55 @@ async function loadOptionChain() {
       }
 
 
-      const ce =
-        row.CE || {};
-
-      const pe =
-        row.PE || {};
-
-
       tr.innerHTML = `
 
         <td class="ce">
-          ${formatNumber(ce.ltp)}
+
+          ${formatNumber(
+            ce.ltp,
+            2
+          )}
+
         </td>
+
 
         <td class="ce">
-          ${formatNumber(ce.oi)}
+
+          ${formatNumber(
+            ce.oi,
+            0
+          )}
+
         </td>
 
-        <td>
-          <b>${formatNumber(row.strike)}</b>
+
+        <td class="strike">
+
+          ${formatNumber(
+            strike,
+            0
+          )}
+
         </td>
+
 
         <td class="pe">
-          ${formatNumber(pe.oi)}
+
+          ${formatNumber(
+            pe.oi,
+            0
+          )}
+
         </td>
 
+
         <td class="pe">
-          ${formatNumber(pe.ltp)}
+
+          ${formatNumber(
+            pe.ltp,
+            2
+          )}
+
         </td>
 
       `;
@@ -626,121 +1436,723 @@ async function loadOptionChain() {
 
       body.appendChild(tr);
 
+
     });
 
 
-  } catch (error) {
+  }
 
-    console.error(error);
+  catch (error) {
 
-    body.innerHTML =
-      `<tr>
-        <td colspan="5" style="color:#ef4444;">
+
+    console.error(
+      "Option chain error:",
+      error
+    );
+
+
+    body.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="5"
+          style="color:#f87171;"
+        >
+
           Option chain unavailable
+
         </td>
-      </tr>`;
+
+      </tr>
+
+    `;
+
 
   }
 
 }
 
 
-/* ---------------------------
-   NUMBER FORMAT
----------------------------- */
 
-function formatNumber(value) {
+/* =====================================================
+   NUMBER FORMAT
+===================================================== */
+
+
+function formatNumber(
+  value,
+  decimals = 2
+) {
+
 
   if (
     value === undefined ||
     value === null ||
-    value === ""
+    value === "" ||
+    Number.isNaN(Number(value))
   ) {
 
     return "--";
 
   }
 
+
   return Number(value)
-    .toLocaleString("en-IN", {
-      maximumFractionDigits: 2
-    });
+    .toLocaleString(
+      "en-IN",
+      {
+        minimumFractionDigits:
+          decimals,
+        maximumFractionDigits:
+          decimals
+      }
+    );
 
 }
 
 
-/* ---------------------------
-   BASIC AI SIGNAL
----------------------------- */
+
+/* =====================================================
+   OI ANALYSIS + SETUP SCORE
+===================================================== */
+
 
 function calculateSignal() {
 
-  const signal =
-    document.getElementById("signal");
 
-  const score =
-    document.getElementById("score");
+  const signal =
+    document.getElementById(
+      "signal"
+    );
+
+
+  const scoreEl =
+    document.getElementById(
+      "score"
+    );
+
 
   const why =
-    document.getElementById("why");
+    document.getElementById(
+      "why"
+    );
+
+
+  const pcrEl =
+    document.getElementById(
+      "pcr"
+    );
+
+
+  const biasEl =
+    document.getElementById(
+      "bias"
+    );
+
+
+  const resistanceEl =
+    document.getElementById(
+      "resistance"
+    );
+
+
+  const supportEl =
+    document.getElementById(
+      "support"
+    );
+
+
+  if (
+    !optionData ||
+    !optionData.data ||
+    !optionData.data.length
+  ) {
+
+
+    signal.innerText =
+      "WAIT";
+
+
+    signal.className =
+      "signal yellow";
+
+
+    scoreEl.innerText =
+      "Score: --";
+
+
+    why.innerText =
+      "Option-chain data is not available yet.";
+
+
+    return;
+
+  }
+
+
+  const chain =
+    optionData.data;
+
+
+  let totalCEOI = 0;
+
+  let totalPEOI = 0;
+
+
+  let highestCEOI = 0;
+
+  let highestPEOI = 0;
+
+
+  let ceResistance = null;
+
+  let peSupport = null;
+
+
+  let totalCEVolume = 0;
+
+  let totalPEVolume = 0;
+
+
+  chain.forEach(row => {
+
+
+    const ce =
+      row.CE || {};
+
+
+    const pe =
+      row.PE || {};
+
+
+    const ceOI =
+      Number(ce.oi || 0);
+
+
+    const peOI =
+      Number(pe.oi || 0);
+
+
+    const ceVolume =
+      Number(ce.volume || 0);
+
+
+    const peVolume =
+      Number(pe.volume || 0);
+
+
+    totalCEOI +=
+      ceOI;
+
+
+    totalPEOI +=
+      peOI;
+
+
+    totalCEVolume +=
+      ceVolume;
+
+
+    totalPEVolume +=
+      peVolume;
+
+
+    if (
+      ceOI >
+      highestCEOI
+    ) {
+
+      highestCEOI =
+        ceOI;
+
+      ceResistance =
+        Number(row.strike);
+
+    }
+
+
+    if (
+      peOI >
+      highestPEOI
+    ) {
+
+      highestPEOI =
+        peOI;
+
+      peSupport =
+        Number(row.strike);
+
+    }
+
+
+  });
+
+
+
+  /* PCR */
+
+  const pcr =
+    totalCEOI > 0
+      ? totalPEOI / totalCEOI
+      : 0;
+
+
+
+  /* Current BANKNIFTY */
+
+  const banknifty =
+    Number(
+      optionData.banknifty
+    );
+
+
+  const atm =
+    Number(
+      optionData.atm_strike
+    );
+
+
+
+  /* =================================================
+     SCORE
+  ================================================= */
+
+
+  let score = 50;
+
+
+  let bias =
+    "NEUTRAL";
+
+
+  let reasons = [];
+
+
+
+  /* PCR */
+
+  if (
+    pcr >= 1.30
+  ) {
+
+
+    score += 20;
+
+
+    bias =
+      "BULLISH";
+
+
+    reasons.push(
+      "PCR is strongly bullish."
+    );
+
+
+  }
+
+  else if (
+    pcr >= 1.10
+  ) {
+
+
+    score += 10;
+
+
+    bias =
+      "MILD BULLISH";
+
+
+    reasons.push(
+      "PCR shows mild bullish positioning."
+    );
+
+
+  }
+
+  else if (
+    pcr <= 0.75
+  ) {
+
+
+    score -= 20;
+
+
+    bias =
+      "BEARISH";
+
+
+    reasons.push(
+      "PCR is strongly bearish."
+    );
+
+
+  }
+
+  else if (
+    pcr <= 0.90
+  ) {
+
+
+    score -= 10;
+
+
+    bias =
+      "MILD BEARISH";
+
+
+    reasons.push(
+      "PCR shows mild bearish positioning."
+    );
+
+
+  }
+
+  else {
+
+
+    reasons.push(
+      "PCR is relatively neutral."
+    );
+
+  }
+
+
+
+  /* Price vs ATM */
+
+  if (
+    banknifty >
+    atm
+  ) {
+
+
+    score += 5;
+
+
+    reasons.push(
+      "BANKNIFTY is above ATM."
+    );
+
+
+  }
+
+  else if (
+    banknifty <
+    atm
+  ) {
+
+
+    score -= 5;
+
+
+    reasons.push(
+      "BANKNIFTY is below ATM."
+    );
+
+
+  }
+
+
+
+  /* Resistance proximity */
+
+  if (
+    ceResistance !== null
+  ) {
+
+
+    const distance =
+      Math.abs(
+        banknifty -
+        ceResistance
+      );
+
+
+    if (
+      distance <= 300
+    ) {
+
+
+      score -= 5;
+
+
+      reasons.push(
+        "Price is close to major CE OI resistance."
+      );
+
+    }
+
+  }
+
+
+
+  /* Support proximity */
+
+  if (
+    peSupport !== null
+  ) {
+
+
+    const distance =
+      Math.abs(
+        banknifty -
+        peSupport
+      );
+
+
+    if (
+      distance <= 300
+    ) {
+
+
+      score += 5;
+
+
+      reasons.push(
+        "Price is close to major PE OI support."
+      );
+
+    }
+
+  }
+
+
+
+  /* Keep 0-100 */
+
+  score =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        Math.round(score)
+      )
+    );
+
+
+
+  /* =================================================
+     DECISION
+  ================================================= */
+
+
+  let decision =
+    "WAIT";
+
+
+  let signalClass =
+    "signal yellow";
 
 
   /*
-    IMPORTANT:
-    This is NOT the final trading engine.
+    Conservative thresholds.
 
-    We currently only have:
-    BANKNIFTY price
-    CE/PE LTP
-    CE/PE OI
-
-    Therefore we deliberately keep
-    the signal as WAIT until the
-    full analysis engine is added.
+    CALL only >= 75
+    PUT only <= 25
+    Otherwise WAIT
   */
 
 
-  signal.innerText = "WAIT";
+  if (
+    score >= 75
+  ) {
+
+
+    decision =
+      "CALL";
+
+
+    signalClass =
+      "signal green";
+
+  }
+
+  else if (
+    score <= 25
+  ) {
+
+
+    decision =
+      "PUT";
+
+
+    signalClass =
+      "signal red";
+
+  }
+
+
+
+  /* Display */
+
+  signal.innerText =
+    decision;
+
 
   signal.className =
-    "signal yellow";
+    signalClass;
 
-  score.innerText =
-    "Score: --";
 
-  why.innerText =
-    "Market data and option chain are connected. " +
-    "Full AI setup analysis will use OI, volume, " +
-    "VWAP, trend, volatility and breakout confirmation.";
+  scoreEl.innerText =
+    `Score: ${score}/100`;
+
+
+
+  /* OI cards */
+
+  pcrEl.innerText =
+    pcr.toFixed(2);
+
+
+  biasEl.innerText =
+    bias;
+
+
+  resistanceEl.innerText =
+    ceResistance !== null
+      ? formatNumber(
+          ceResistance,
+          0
+        )
+      : "--";
+
+
+  supportEl.innerText =
+    peSupport !== null
+      ? formatNumber(
+          peSupport,
+          0
+        )
+      : "--";
+
+
+
+  /* WHY */
+
+  why.innerHTML = `
+
+    <b>Current Decision: ${decision}</b>
+
+    <br><br>
+
+    ${reasons
+      .map(
+        r => `• ${r}`
+      )
+      .join("<br>")}
+
+    <br><br>
+
+    <b>OI Summary</b>
+
+    <br>
+
+    Total CE OI:
+    ${formatNumber(
+      totalCEOI,
+      0
+    )}
+
+    <br>
+
+    Total PE OI:
+    ${formatNumber(
+      totalPEOI,
+      0
+    )}
+
+    <br>
+
+    Highest CE OI:
+    ${formatNumber(
+      highestCEOI,
+      0
+    )}
+
+    <br>
+
+    Highest PE OI:
+    ${formatNumber(
+      highestPEOI,
+      0
+    )}
+
+    <br><br>
+
+    <span class="small">
+
+      Current model uses OI, PCR and
+      price/ATM positioning only.
+
+      <br>
+
+      Volume, OI change, VWAP, EMA,
+      RSI, ATR and breakout confirmation
+      will be added in the next analysis layer.
+
+    </span>
+
+  `;
 
 }
 
 
-/* ---------------------------
+
+/* =====================================================
    RISK CALCULATOR
----------------------------- */
+===================================================== */
+
 
 function calculateRisk() {
 
+
   const capital =
     Number(
-      document.getElementById("capital").value
+      document.getElementById(
+        "capital"
+      ).value
     );
+
 
   const riskPercent =
     Number(
-      document.getElementById("riskPercent").value
+      document.getElementById(
+        "riskPercent"
+      ).value
+    );
+
+
+  const result =
+    document.getElementById(
+      "riskResult"
     );
 
 
   if (
     !capital ||
-    !riskPercent
+    capital <= 0
   ) {
 
-    document.getElementById("riskResult")
-      .innerText =
-      "Please enter capital and risk %.";
+
+    result.innerText =
+      "Please enter a valid capital amount.";
+
+
+    return;
+
+  }
+
+
+  if (
+    !riskPercent ||
+    riskPercent <= 0
+  ) {
+
+
+    result.innerText =
+      "Please enter a valid risk percentage.";
+
 
     return;
 
@@ -748,41 +2160,65 @@ function calculateRisk() {
 
 
   const riskAmount =
-    capital * riskPercent / 100;
+    capital *
+    riskPercent /
+    100;
 
 
-  document.getElementById("riskResult")
-    .innerHTML =
-    `
-      Maximum risk per trade:
-      <b>₹${riskAmount.toLocaleString("en-IN")}</b>
-      <br>
-      Recommended approach:
-      Do not risk more than this amount on one trade.
-    `;
+  result.innerHTML = `
+
+    Maximum planned risk per trade:
+
+    <b>
+      ₹${formatNumber(
+        riskAmount,
+        0
+      )}
+    </b>
+
+    <br><br>
+
+    Example:
+
+    If your capital is ₹1,00,000
+    and risk is 1%, maximum planned
+    loss is ₹1,000.
+
+  `;
 
 }
 
 
-/* ---------------------------
+
+/* =====================================================
    ASK AI
----------------------------- */
+===================================================== */
+
 
 function askAI() {
 
+
   const question =
-    document.getElementById("question")
+    document
+      .getElementById(
+        "question"
+      )
       .value
       .trim();
 
+
   const answer =
-    document.getElementById("answer");
+    document.getElementById(
+      "answer"
+    );
 
 
   if (!question) {
 
+
     answer.innerText =
       "Please enter your question.";
+
 
     return;
 
@@ -791,54 +2227,167 @@ function askAI() {
 
   if (!optionData) {
 
+
     answer.innerText =
-      "Option-chain data is not available yet. " +
-      "Please refresh market data.";
+      "Market/option-chain data is not available yet. Please refresh.";
+
 
     return;
 
   }
 
 
-  answer.innerHTML =
-    `
-      <b>Current view: WAIT</b>
-      <br><br>
+  const currentSignal =
+    document
+      .getElementById(
+        "signal"
+      )
+      .innerText;
 
-      A final CALL/PUT decision is not being
-      generated yet because the complete AI
-      confirmation engine is still under development.
 
-      <br><br>
+  const currentScore =
+    document
+      .getElementById(
+        "score"
+      )
+      .innerText;
 
-      Current available data:
-      <br>
-      • BANKNIFTY: ${formatNumber(optionData.banknifty)}
-      <br>
-      • ATM: ${formatNumber(optionData.atm_strike)}
-      <br>
-      • Expiry: ${optionData.expiry}
-      <br><br>
 
-      Your question:
-      "${question}"
-    `;
+  const pcr =
+    document
+      .getElementById(
+        "pcr"
+      )
+      .innerText;
+
+
+  const resistance =
+    document
+      .getElementById(
+        "resistance"
+      )
+      .innerText;
+
+
+  const support =
+    document
+      .getElementById(
+        "support"
+      )
+      .innerText;
+
+
+  answer.innerHTML = `
+
+    <b>Current AI Options Pro view</b>
+
+    <br><br>
+
+    Decision:
+    <b>${currentSignal}</b>
+
+    <br>
+
+    ${currentScore}
+
+    <br><br>
+
+    PCR:
+    <b>${pcr}</b>
+
+    <br>
+
+    CE Resistance:
+    <b>${resistance}</b>
+
+    <br>
+
+    PE Support:
+    <b>${support}</b>
+
+    <br><br>
+
+    Your question:
+
+    <br>
+
+    <b>"${escapeHTML(
+      question
+    )}"</b>
+
+    <br><br>
+
+    The current prototype is using
+    option-chain OI/PCR analysis.
+
+    A complete AI answer engine will be
+    connected after VWAP, EMA, RSI, ATR,
+    volume and price-action confirmation
+    are added.
+
+  `;
 
 }
 
 
-/* ---------------------------
-   AUTO REFRESH
----------------------------- */
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
+
+
+function escapeHTML(text) {
+
+
+  return text
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
 
 loadAllData();
+
+
+
+/* =====================================================
+   AUTO REFRESH
+===================================================== */
+
 
 setInterval(
   loadAllData,
   30000
 );
 
+
 </script>
 
+
 </body>
+
 </html>
