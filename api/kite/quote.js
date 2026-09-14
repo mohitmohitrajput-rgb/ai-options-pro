@@ -1,4 +1,13 @@
 export default async function handler(req, res) {
+  // Allow GitHub Pages frontend to call this API
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   const apiKey = process.env.KITE_API_KEY;
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
@@ -11,7 +20,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Get today's saved Kite access token
     const sessionResponse = await fetch(
       `${supabaseUrl}/rest/v1/kite_sessions?id=eq.1&select=access_token,login_at`,
       {
@@ -40,7 +48,6 @@ export default async function handler(req, res) {
 
     const accessToken = sessions[0].access_token;
 
-    // Get NIFTY 50 and BANKNIFTY LTP
     const instruments = [
       "NSE:NIFTY 50",
       "NSE:NIFTY BANK"
@@ -74,7 +81,8 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       status: "success",
-      data: data.data
+      data: data.data,
+      updated_at: new Date().toISOString()
     });
 
   } catch (error) {
