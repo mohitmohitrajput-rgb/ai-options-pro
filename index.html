@@ -1,402 +1,842 @@
-<!doctype html>
-<html lang="hi">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#08101d">
-<title>AI Options Pro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Options Pro</title>
 
-<style>
-*{box-sizing:border-box}
-body{
-margin:0;background:#08101d;color:#f4f7fb;
-font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif
-}
-.app{max-width:520px;margin:auto;padding:18px 16px 90px}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-h1{font-size:25px;margin:0}
-.sub{color:#91a0b7;font-size:12px;margin-top:4px}
-.pill{background:#15243a;border:1px solid #263b57;padding:8px 11px;border-radius:18px;font-size:12px}
-.card{
-background:#101b2b;border:1px solid #20324a;border-radius:20px;
-padding:18px;margin:12px 0;box-shadow:0 8px 30px rgba(0,0,0,.15)
-}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-.tab{
-border:1px solid #2a3b53;background:#0e1928;color:#cbd5e1;
-padding:12px;border-radius:13px;font-weight:600
-}
-.active{background:#18304d}
-.market{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
-.price{font-size:27px;font-weight:750}
-.muted{color:#93a2b8}
-.badge{padding:7px 10px;border-radius:10px;background:#3f3518;color:#f4d77a;font-weight:700;font-size:12px}
-.signal{text-align:center;padding:12px 0}
-.signal h2{font-size:38px;margin:5px 0}
-.score{font-size:15px;color:#9fb0c8}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.metric{background:#0c1624;border-radius:13px;padding:11px}
-.metric b{display:block;margin-top:5px}
-.why{line-height:1.6;color:#d6deea;font-size:14px}
-.buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.btn{border:0;border-radius:12px;padding:13px;font-weight:750;background:#20334d;color:#fff}
-.call{background:#164b31}
-.put{background:#4a2025}
-.wait{background:#3f3518}
-.refresh{width:100%;margin-top:10px}
-input,select{
-width:100%;padding:13px;border-radius:12px;border:1px solid #2b3c54;
-background:#0b1523;color:#fff;font-size:15px;margin-top:8px
-}
-.chat{min-height:100px;white-space:pre-wrap;color:#dce5f0}
-.status{font-size:12px;margin-top:8px}
-.online{color:#7ee2a8}
-.offline{color:#ff9b9b}
-.bottom{
-position:fixed;bottom:0;left:0;right:0;background:#08101de8;
-border-top:1px solid #20324a;padding:10px;display:flex;justify-content:center
-}
-.bottom span{font-size:11px;color:#8494aa}
-</style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #0b1020;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+
+    .app {
+      max-width: 700px;
+      margin: auto;
+      padding: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    .subtitle {
+      color: #9ca3af;
+      margin-top: 5px;
+      font-size: 13px;
+    }
+
+    .mode {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 10px;
+      border-radius: 20px;
+      background: #172033;
+      color: #60a5fa;
+      font-size: 12px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 20px 0;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px;
+      border: 0;
+      border-radius: 10px;
+      background: #151d31;
+      color: #aaa;
+      font-weight: bold;
+    }
+
+    .tab.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    .card {
+      background: #111827;
+      border: 1px solid #202b40;
+      border-radius: 15px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .label {
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    .price {
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .green {
+      color: #22c55e;
+    }
+
+    .yellow {
+      color: #facc15;
+    }
+
+    .red {
+      color: #ef4444;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .refresh {
+      background: #2563eb;
+      color: white;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .signal {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .score {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .chain-wrap {
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 620px;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th {
+      background: #1f2937;
+      padding: 9px 6px;
+      color: #cbd5e1;
+    }
+
+    td {
+      padding: 8px 6px;
+      border-bottom: 1px solid #263246;
+      text-align: center;
+    }
+
+    tr.atm {
+      background: rgba(37, 99, 235, 0.25);
+      font-weight: bold;
+    }
+
+    .ce {
+      color: #60a5fa;
+    }
+
+    .pe {
+      color: #f472b6;
+    }
+
+    .small {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 9px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: white;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .reason {
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="app">
 
-<div class="top">
-<div>
-<h1>AI Options Pro</h1>
-<div class="sub">AI Options Research & Decision Assistant</div>
+  <h1>AI Options Pro</h1>
+  <div class="subtitle">BANKNIFTY / NIFTY AI Trading Assistant</div>
+
+  <div class="mode">PAPER MODE</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('dashboard', this)">
+      Dashboard
+    </button>
+
+    <button class="tab" onclick="showTab('ask', this)">
+      Ask AI
+    </button>
+  </div>
+
+
+  <!-- DASHBOARD -->
+
+  <div id="dashboard">
+
+    <div class="card">
+      <div class="label">BANKNIFTY</div>
+      <div id="bankPrice" class="price">--</div>
+
+      <div id="connection" class="status yellow">
+        Connecting to Kite...
+      </div>
+
+      <div class="small">
+        Last update: <span id="updated">--</span>
+      </div>
+
+      <button class="refresh" onclick="loadAllData()">
+        🔄 Refresh Market Data
+      </button>
+    </div>
+
+
+    <div class="card">
+      <div class="label">NIFTY 50</div>
+      <div id="niftyPrice" class="price">--</div>
+    </div>
+
+
+    <!-- AI SIGNAL -->
+
+    <div class="card">
+
+      <div class="label">AI SETUP ANALYSIS</div>
+
+      <div id="signal" class="signal yellow">
+        WAIT
+      </div>
+
+      <div id="score" class="score">
+        Score: --
+      </div>
+
+      <p id="why" class="reason">
+        Option-chain analysis loading...
+      </p>
+
+    </div>
+
+
+    <!-- OPTION CHAIN -->
+
+    <div class="card">
+
+      <div class="label">BANKNIFTY OPTION CHAIN</div>
+
+      <div style="margin-top:8px;">
+        <b>ATM:</b>
+        <span id="atmStrike">--</span>
+
+        &nbsp;&nbsp;
+
+        <b>Expiry:</b>
+        <span id="expiry">--</span>
+      </div>
+
+      <div class="chain-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>CE LTP</th>
+              <th>CE OI</th>
+              <th>Strike</th>
+              <th>PE OI</th>
+              <th>PE LTP</th>
+            </tr>
+          </thead>
+
+          <tbody id="optionChainBody">
+
+            <tr>
+              <td colspan="5">
+                Loading option chain...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <!-- RISK CALCULATOR -->
+
+    <div class="card">
+
+      <div class="label">RISK CALCULATOR</div>
+
+      <input
+        id="capital"
+        type="number"
+        placeholder="Capital ₹"
+      >
+
+      <input
+        id="riskPercent"
+        type="number"
+        value="1"
+        placeholder="Risk %"
+      >
+
+      <button class="refresh" onclick="calculateRisk()">
+        Calculate Risk
+      </button>
+
+      <p id="riskResult" class="reason"></p>
+
+    </div>
+
+
+    <!-- HISTORICAL -->
+
+    <div class="card">
+
+      <div class="label">HISTORICAL ANALYSIS</div>
+
+      <select
+        id="history"
+        style="
+          width:100%;
+          margin-top:10px;
+          padding:12px;
+          border-radius:9px;
+          background:#0f172a;
+          color:white;
+          border:1px solid #334155;
+        "
+      >
+
+        <option>1 Month</option>
+        <option>3 Months</option>
+        <option>1 Year</option>
+        <option>3 Years</option>
+        <option>5 Years</option>
+        <option>10 Years</option>
+
+      </select>
+
+      <p class="small">
+        Historical backtesting engine will be added next.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ASK AI -->
+
+  <div id="ask" class="hidden">
+
+    <div class="card">
+
+      <div class="label">ASK AI</div>
+
+      <input
+        id="question"
+        placeholder="Example: Abhi trade lena chahiye?"
+      >
+
+      <button class="refresh" onclick="askAI()">
+        🤖 Ask AI
+      </button>
+
+      <p id="answer" class="reason">
+        Ask me about the current setup.
+      </p>
+
+    </div>
+
+  </div>
+
 </div>
-<div class="pill">PAPER MODE</div>
-</div>
 
-<div class="tabs">
-<button class="tab active" onclick="show('dashboard',this)">Dashboard</button>
-<button class="tab" onclick="show('ask',this)">Ask AI</button>
-</div>
-
-<section id="dashboard">
-
-<div class="card">
-
-<div class="market">
-<div>
-<div class="muted">BANKNIFTY</div>
-<div class="price" id="banknifty">--</div>
-</div>
-<div class="badge" id="signalBadge">WAIT</div>
-</div>
-
-<div class="market">
-<div>
-<div class="muted">NIFTY 50</div>
-<div class="price" id="nifty">--</div>
-</div>
-<div class="status muted" id="dataStatus">Connecting...</div>
-</div>
-
-<div class="signal">
-<div class="score">Setup score</div>
-<h2 id="setupScore">--</h2>
-<div class="muted" id="signalReason">
-Waiting for market analysis
-</div>
-</div>
-
-<div class="buttons">
-<button class="btn call">CALL</button>
-<button class="btn wait">WAIT</button>
-<button class="btn put">PUT</button>
-</div>
-
-<button class="btn refresh" onclick="loadMarketData()">
-🔄 Refresh Market Data
-</button>
-
-<div class="status muted" id="updatedAt">
-Last update: --
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>WHY?</h3>
-
-<div class="why" id="whyText">
-Live market data connected hone ke baad AI price,
-option chain, OI, volume, IV, VWAP, EMA, RSI,
-ATR aur support/resistance ko analyse karega.
-
-<br><br>
-
-Abhi sirf index LTP available hai, isliye system
-unnecessarily CALL/PUT signal generate nahi karega.
-
-<br><br>
-
-<b>Current decision: WAIT</b>
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>Historical Analysis</h3>
-
-<select id="period">
-<option>Last 1 Month</option>
-<option>Last 3 Months</option>
-<option>Last 1 Year</option>
-<option>Last 3 Years</option>
-<option>Last 5 Years</option>
-<option>Last 10 Years</option>
-</select>
-
-<div class="grid" style="margin-top:10px">
-
-<div class="metric">
-Win Rate
-<b>--</b>
-</div>
-
-<div class="metric">
-Profit Factor
-<b>--</b>
-</div>
-
-<div class="metric">
-Max Drawdown
-<b>--</b>
-</div>
-
-<div class="metric">
-Signals
-<b>--</b>
-</div>
-
-</div>
-</div>
-
-<div class="card">
-
-<h3>Risk Calculator</h3>
-
-<label class="muted">Capital</label>
-<input id="capital" type="number" value="100000">
-
-<label class="muted">Risk %</label>
-<input id="risk" type="number" value="0.5" step="0.1">
-
-<button class="btn" style="width:100%;margin-top:10px" onclick="riskCalc()">
-Calculate
-</button>
-
-<div id="riskout" class="why" style="margin-top:10px"></div>
-
-</div>
-
-</section>
-
-<section id="ask" style="display:none">
-
-<div class="card">
-
-<h3>Ask AI</h3>
-
-<div class="sub">
-Example: “Abhi BANKNIFTY mein trade lena chahiye?”
-</div>
-
-<input id="q" placeholder="Apna question likhiye...">
-
-<button class="btn" style="width:100%;margin-top:10px" onclick="ask()">
-Analyse
-</button>
-
-<div id="answer" class="chat" style="margin-top:14px">
-Market data load hone ka wait karein.
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>Planned Modules</h3>
-
-<div class="why">
-Option Chain • OI • IV • VWAP • EMA • RSI • ATR
-• Market Regime • AI Score • Backtesting
-• Paper Trading • Alerts • Trade Journal
-• Kite Execution
-</div>
-
-</div>
-
-</section>
-
-</div>
-
-<div class="bottom">
-<span>Educational decision-support prototype • Not financial advice</span>
-</div>
 
 <script>
 
-const API_URL =
-"https://ai-options-pro-6sl9.vercel.app/api/kite/quote";
+const QUOTE_API =
+  "https://ai-options-pro-6sl9.vercel.app/api/kite/quote";
 
-function show(id,el){
+const OPTION_API =
+  "https://ai-options-pro-6sl9.vercel.app/api/kite/option-chain";
 
-document.querySelectorAll("section")
-.forEach(x=>x.style.display="none");
 
-document.getElementById(id).style.display="block";
+let marketData = null;
+let optionData = null;
 
-document.querySelectorAll(".tab")
-.forEach(x=>x.classList.remove("active"));
 
-el.classList.add("active");
+/* ---------------------------
+   TAB
+---------------------------- */
+
+function showTab(tab, button) {
+
+  document.getElementById("dashboard")
+    .classList.toggle("hidden", tab !== "dashboard");
+
+  document.getElementById("ask")
+    .classList.toggle("hidden", tab !== "ask");
+
+  document.querySelectorAll(".tab")
+    .forEach(btn => btn.classList.remove("active"));
+
+  button.classList.add("active");
+}
+
+
+/* ---------------------------
+   LOAD ALL DATA
+---------------------------- */
+
+async function loadAllData() {
+
+  await loadMarketData();
+
+  await loadOptionChain();
+
+  calculateSignal();
 
 }
 
-async function loadMarketData(){
 
-const status=document.getElementById("dataStatus");
-const nifty=document.getElementById("nifty");
-const banknifty=document.getElementById("banknifty");
-const updated=document.getElementById("updatedAt");
+/* ---------------------------
+   MARKET DATA
+---------------------------- */
 
-status.textContent="Connecting...";
-status.className="status muted";
+async function loadMarketData() {
 
-try{
+  try {
 
-const response=await fetch(API_URL,{
-method:"GET",
-cache:"no-store"
-});
+    const response =
+      await fetch(QUOTE_API);
 
-const result=await response.json();
+    const result =
+      await response.json();
 
-if(!response.ok || result.status!=="success"){
-throw new Error(result.message || "Market data unavailable");
-}
+    if (result.status !== "success") {
 
-const niftyData=result.data["NSE:NIFTY 50"];
-const bankData=result.data["NSE:NIFTY BANK"];
+      throw new Error(
+        result.message || "Market data error"
+      );
 
-if(niftyData){
+    }
 
-nifty.textContent=
-Number(niftyData.last_price).toLocaleString("en-IN",{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-});
+    marketData = result.data;
 
-}
+    const bank =
+      marketData["NSE:NIFTY BANK"].last_price;
 
-if(bankData){
+    const nifty =
+      marketData["NSE:NIFTY 50"].last_price;
 
-banknifty.textContent=
-Number(bankData.last_price).toLocaleString("en-IN",{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-});
 
-}
+    document.getElementById("bankPrice")
+      .innerText =
+      Number(bank).toLocaleString("en-IN", {
+        minimumFractionDigits: 2
+      });
 
-status.textContent="● Kite Connected";
-status.className="status online";
 
-updated.textContent=
-"Last update: "+new Date().toLocaleTimeString("en-IN");
+    document.getElementById("niftyPrice")
+      .innerText =
+      Number(nifty).toLocaleString("en-IN", {
+        minimumFractionDigits: 2
+      });
 
-document.getElementById("signalBadge").textContent="WAIT";
-document.getElementById("setupScore").textContent="--";
 
-document.getElementById("signalReason").textContent=
-"Index price available • Full setup analysis pending";
+    document.getElementById("connection")
+      .innerText =
+      "🟢 Kite Connected";
 
-}
+    document.getElementById("connection")
+      .className =
+      "status green";
 
-catch(error){
 
-console.error(error);
+    document.getElementById("updated")
+      .innerText =
+      new Date().toLocaleTimeString();
 
-status.textContent="● Data unavailable";
-status.className="status offline";
 
-document.getElementById("signalBadge").textContent="WAIT";
+  } catch (error) {
 
-document.getElementById("signalReason").textContent=
-"Market data connection unavailable";
+    console.error(error);
 
-document.getElementById("whyText").innerHTML=
-"Kite market data abhi available nahi hai."+
-"<br><br>"+
-"Please check Kite login/session and Vercel API."+
-"<br><br>"+
-"<b>Decision: WAIT</b>";
+    document.getElementById("connection")
+      .innerText =
+      "🔴 Market data error";
+
+    document.getElementById("connection")
+      .className =
+      "status red";
+
+  }
 
 }
 
+
+/* ---------------------------
+   OPTION CHAIN
+---------------------------- */
+
+async function loadOptionChain() {
+
+  const body =
+    document.getElementById("optionChainBody");
+
+  try {
+
+    body.innerHTML =
+      `<tr>
+        <td colspan="5">Loading option chain...</td>
+      </tr>`;
+
+
+    const response =
+      await fetch(OPTION_API);
+
+
+    const result =
+      await response.json();
+
+
+    if (result.status !== "success") {
+
+      throw new Error(
+        result.message ||
+        "Option chain error"
+      );
+
+    }
+
+
+    optionData = result;
+
+
+    document.getElementById("atmStrike")
+      .innerText =
+      Number(result.atm_strike)
+        .toLocaleString("en-IN");
+
+
+    document.getElementById("expiry")
+      .innerText =
+      result.expiry;
+
+
+    body.innerHTML = "";
+
+
+    result.data.forEach(row => {
+
+      const tr =
+        document.createElement("tr");
+
+
+      if (
+        Number(row.strike) ===
+        Number(result.atm_strike)
+      ) {
+
+        tr.classList.add("atm");
+
+      }
+
+
+      const ce =
+        row.CE || {};
+
+      const pe =
+        row.PE || {};
+
+
+      tr.innerHTML = `
+
+        <td class="ce">
+          ${formatNumber(ce.ltp)}
+        </td>
+
+        <td class="ce">
+          ${formatNumber(ce.oi)}
+        </td>
+
+        <td>
+          <b>${formatNumber(row.strike)}</b>
+        </td>
+
+        <td class="pe">
+          ${formatNumber(pe.oi)}
+        </td>
+
+        <td class="pe">
+          ${formatNumber(pe.ltp)}
+        </td>
+
+      `;
+
+
+      body.appendChild(tr);
+
+    });
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    body.innerHTML =
+      `<tr>
+        <td colspan="5" style="color:#ef4444;">
+          Option chain unavailable
+        </td>
+      </tr>`;
+
+  }
+
 }
 
-function riskCalc(){
 
-const capital=
-Number(document.getElementById("capital").value)||0;
+/* ---------------------------
+   NUMBER FORMAT
+---------------------------- */
 
-const risk=
-Number(document.getElementById("risk").value)||0;
+function formatNumber(value) {
 
-const loss=capital*risk/100;
+  if (
+    value === undefined ||
+    value === null ||
+    value === ""
+  ) {
 
-document.getElementById("riskout").textContent=
-"Maximum planned loss: ₹"+
-loss.toLocaleString("en-IN")+
-" (before brokerage/slippage).";
+    return "--";
 
-}
+  }
 
-function ask(){
-
-const q=document.getElementById("q").value.trim();
-const answer=document.getElementById("answer");
-
-if(!q){
-answer.textContent="Pehle apna question likhiye.";
-return;
-}
-
-const bank=document.getElementById("banknifty").textContent;
-const nifty=document.getElementById("nifty").textContent;
-
-answer.textContent=
-"Aapka question: "+q+
-"\n\n"+
-"Current NIFTY: "+nifty+
-"\n"+
-"Current BANKNIFTY: "+bank+
-"\n\n"+
-"Current AI decision: WAIT."+
-"\n\n"+
-"Reason: Abhi system ke paas index LTP hai, "+
-"lekin complete option-chain, OI, volume, IV "+
-"aur technical confirmation available nahi hai."+
-"\n\n"+
-"Isliye bina sufficient confirmation ke "+
-"CALL/PUT recommendation generate nahi ki jayegi.";
+  return Number(value)
+    .toLocaleString("en-IN", {
+      maximumFractionDigits: 2
+    });
 
 }
 
-riskCalc();
-loadMarketData();
 
-setInterval(loadMarketData,30000);
+/* ---------------------------
+   BASIC AI SIGNAL
+---------------------------- */
+
+function calculateSignal() {
+
+  const signal =
+    document.getElementById("signal");
+
+  const score =
+    document.getElementById("score");
+
+  const why =
+    document.getElementById("why");
+
+
+  /*
+    IMPORTANT:
+    This is NOT the final trading engine.
+
+    We currently only have:
+    BANKNIFTY price
+    CE/PE LTP
+    CE/PE OI
+
+    Therefore we deliberately keep
+    the signal as WAIT until the
+    full analysis engine is added.
+  */
+
+
+  signal.innerText = "WAIT";
+
+  signal.className =
+    "signal yellow";
+
+  score.innerText =
+    "Score: --";
+
+  why.innerText =
+    "Market data and option chain are connected. " +
+    "Full AI setup analysis will use OI, volume, " +
+    "VWAP, trend, volatility and breakout confirmation.";
+
+}
+
+
+/* ---------------------------
+   RISK CALCULATOR
+---------------------------- */
+
+function calculateRisk() {
+
+  const capital =
+    Number(
+      document.getElementById("capital").value
+    );
+
+  const riskPercent =
+    Number(
+      document.getElementById("riskPercent").value
+    );
+
+
+  if (
+    !capital ||
+    !riskPercent
+  ) {
+
+    document.getElementById("riskResult")
+      .innerText =
+      "Please enter capital and risk %.";
+
+    return;
+
+  }
+
+
+  const riskAmount =
+    capital * riskPercent / 100;
+
+
+  document.getElementById("riskResult")
+    .innerHTML =
+    `
+      Maximum risk per trade:
+      <b>₹${riskAmount.toLocaleString("en-IN")}</b>
+      <br>
+      Recommended approach:
+      Do not risk more than this amount on one trade.
+    `;
+
+}
+
+
+/* ---------------------------
+   ASK AI
+---------------------------- */
+
+function askAI() {
+
+  const question =
+    document.getElementById("question")
+      .value
+      .trim();
+
+  const answer =
+    document.getElementById("answer");
+
+
+  if (!question) {
+
+    answer.innerText =
+      "Please enter your question.";
+
+    return;
+
+  }
+
+
+  if (!optionData) {
+
+    answer.innerText =
+      "Option-chain data is not available yet. " +
+      "Please refresh market data.";
+
+    return;
+
+  }
+
+
+  answer.innerHTML =
+    `
+      <b>Current view: WAIT</b>
+      <br><br>
+
+      A final CALL/PUT decision is not being
+      generated yet because the complete AI
+      confirmation engine is still under development.
+
+      <br><br>
+
+      Current available data:
+      <br>
+      • BANKNIFTY: ${formatNumber(optionData.banknifty)}
+      <br>
+      • ATM: ${formatNumber(optionData.atm_strike)}
+      <br>
+      • Expiry: ${optionData.expiry}
+      <br><br>
+
+      Your question:
+      "${question}"
+    `;
+
+}
+
+
+/* ---------------------------
+   AUTO REFRESH
+---------------------------- */
+
+loadAllData();
+
+setInterval(
+  loadAllData,
+  30000
+);
 
 </script>
 
