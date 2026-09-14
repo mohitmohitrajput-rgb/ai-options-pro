@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>AI Options Pro</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#08101d;color:#f4f7fb;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}
+.app{max-width:520px;margin:auto;padding:18px 16px 90px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+h1{font-size:25px;margin:0}.sub{color:#91a0b7;font-size:12px;margin-top:4px}.pill{background:#15243a;border:1px solid #263b57;padding:8px 11px;border-radius:18px;font-size:12px}
+.card{background:#101b2b;border:1px solid #20324a;border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 8px 30px rgba(0,0,0,.15)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.tab{border:1px solid #2a3b53;background:#0e1928;color:#cbd5e1;padding:12px;border-radius:13px;font-weight:600}.active{background:#18304d}
+.market{display:flex;justify-content:space-between;align-items:center}.price{font-size:27px;font-weight:750}.muted{color:#93a2b8}.badge{padding:7px 10px;border-radius:10px;background:#143522;color:#7ee2a8;font-weight:700;font-size:12px}
+.signal{text-align:center;padding:12px 0}.signal h2{font-size:38px;margin:5px 0}.score{font-size:15px;color:#9fb0c8}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric{background:#0c1624;border-radius:13px;padding:11px}.metric b{display:block;margin-top:5px}.why{line-height:1.6;color:#d6deea;font-size:14px}.buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.btn{border:0;border-radius:12px;padding:13px;font-weight:750;background:#20334d;color:#fff}.call{background:#164b31}.put{background:#4a2025}.wait{background:#3f3518}
+input,select{width:100%;padding:13px;border-radius:12px;border:1px solid #2b3c54;background:#0b1523;color:#fff;font-size:15px;margin-top:8px}
+.chat{min-height:100px;white-space:pre-wrap;color:#dce5f0}.bottom{position:fixed;bottom:0;left:0;right:0;background:#08101de8;border-top:1px solid #20324a;padding:10px;display:flex;justify-content:center}.bottom span{font-size:11px;color:#8494aa}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top"><div><h1>AI Options Pro</h1><div class="sub">AI Options Research & Decision Assistant</div></div><div class="pill">PAPER MODE</div></div>
+
+<div class="tabs"><button class="tab active" onclick="show('dashboard',this)">Dashboard</button><button class="tab" onclick="show('ask',this)">Ask AI</button></div>
+
+<section id="dashboard">
+<div class="card">
+<div class="market"><div><div class="muted">BANKNIFTY</div><div class="price">--</div></div><div class="badge">WAIT</div></div>
+<div class="signal"><div class="score">Setup score</div><h2>--</h2><div class="muted">Live data not connected</div></div>
+<div class="buttons"><button class="btn call">CALL</button><button class="btn wait">WAIT</button><button class="btn put">PUT</button></div>
+</div>
+<div class="card"><h3>WHY?</h3><div class="why">Live market/option-chain data connect hone ke baad yahan VWAP, EMA, OI, volume, IV, support/resistance aur market regime ka explanation automatically aayega.</div></div>
+<div class="card"><h3>Historical Analysis</h3><select><option>Last 1 Month</option><option>Last 3 Months</option><option>Last 1 Year</option><option>Last 3 Years</option><option>Last 5 Years</option><option>Last 10 Years</option></select><div class="grid" style="margin-top:10px"><div class="metric">Win Rate<b>--</b></div><div class="metric">Profit Factor<b>--</b></div><div class="metric">Max Drawdown<b>--</b></div><div class="metric">Signals<b>--</b></div></div></div>
+<div class="card"><h3>Risk Calculator</h3><label class="muted">Capital</label><input id="capital" type="number" value="100000"><label class="muted">Risk %</label><input id="risk" type="number" value="0.5" step="0.1"><button class="btn" style="width:100%;margin-top:10px" onclick="riskCalc()">Calculate</button><div id="riskout" class="why" style="margin-top:10px"></div></div>
+</section>
+
+<section id="ask" style="display:none">
+<div class="card"><h3>Ask AI</h3><div class="sub">Example: “Abhi BANKNIFTY mein trade lena chahiye?”</div><input id="q" placeholder="Apna question likhiye..."><button class="btn" style="width:100%;margin-top:10px" onclick="ask()">Analyse</button><div id="answer" class="chat" style="margin-top:14px">Main live market data ke bina trade signal claim nahi karunga. Data connect hone par main CALL / PUT / WAIT ke saath reason, entry, SL aur target explain karunga.</div></div>
+<div class="card"><h3>Planned Modules</h3><div class="why">Option Chain • OI • IV • VWAP • EMA • RSI • ATR • Backtesting • Paper Trading • Alerts • Trade Journal • Kite integration</div></div>
+</section>
+</div>
+<div class="bottom"><span>Educational decision-support prototype • Not financial advice</span></div>
+<script>
+function show(id,el){document.querySelectorAll('section').forEach(x=>x.style.display='none');document.getElementById(id).style.display='block';document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));el.classList.add('active')}
+function riskCalc(){let c=+document.getElementById('capital').value||0,r=+document.getElementById('risk').value||0;document.getElementById('riskout').textContent='Maximum planned loss: ₹'+(c*r/100).toLocaleString('en-IN')+' (before brokerage/slippage).'}
+function ask(){let q=document.getElementById('q').value.trim();document.getElementById('answer').textContent=q?('Aapka question: '+q+'\\n\\nCurrent prototype mein live market feed connected nahi hai, isliye main bina real data ke CALL/PUT recommendation nahi dunga. Final version live price + option chain + OI + volume + IV + technicals analyse karega aur CALL / PUT / WAIT ke saath “WHY” dega.'):'Pehle apna question likhiye.'}
+</script>
+</body>
+</html>
