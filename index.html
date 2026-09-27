@@ -1,2393 +1,1008 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>AI Options Pro</title>
-
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-
-    body {
-
-      margin: 0;
-
-      background: #0b1020;
-
-      color: #ffffff;
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    }
-
-
-    .app {
-
-      max-width: 760px;
-
-      margin: auto;
-
-      padding: 16px;
-
-      padding-bottom: 80px;
-
-    }
-
-
-    h1 {
-
-      margin: 0;
-
-      font-size: 26px;
-
-    }
-
-
-    .subtitle {
-
-      color: #9ca3af;
-
-      margin-top: 5px;
-
-      font-size: 13px;
-
-    }
-
-
-    .mode {
-
-      display: inline-block;
-
-      margin-top: 10px;
-
-      padding: 7px 12px;
-
-      border-radius: 20px;
-
-      background: #172033;
-
-      color: #60a5fa;
-
-      font-size: 12px;
-
-      font-weight: bold;
-
-    }
-
-
-    .tabs {
-
-      display: flex;
-
-      gap: 8px;
-
-      margin: 20px 0;
-
-    }
-
-
-    .tab {
-
-      flex: 1;
-
-      padding: 13px;
-
-      border: 1px solid #263650;
-
-      border-radius: 12px;
-
-      background: #111827;
-
-      color: #9ca3af;
-
-      font-weight: bold;
-
-      font-size: 15px;
-
-    }
-
-
-    .tab.active {
-
-      background: #243957;
-
-      color: #ffffff;
-
-    }
-
-
-    .card {
-
-      background: #111827;
-
-      border: 1px solid #24344e;
-
-      border-radius: 18px;
-
-      padding: 18px;
-
-      margin-bottom: 15px;
-
-    }
-
-
-    .label {
-
-      color: #9ca3af;
-
-      font-size: 13px;
-
-      font-weight: 500;
-
-    }
-
-
-    .price {
-
-      font-size: 32px;
-
-      font-weight: bold;
-
-      margin-top: 6px;
-
-    }
-
-
-    .status {
-
-      margin-top: 12px;
-
-      font-size: 14px;
-
-    }
-
-
-    .green {
-
-      color: #4ade80;
-
-    }
-
-
-    .yellow {
-
-      color: #facc15;
-
-    }
-
-
-    .red {
-
-      color: #f87171;
-
-    }
-
-
-    .small {
-
-      font-size: 11px;
-
-      color: #94a3b8;
-
-      margin-top: 8px;
-
-    }
-
-
-    button {
-
-      border: 0;
-
-      cursor: pointer;
-
-    }
-
-
-    .refresh {
-
-      width: 100%;
-
-      padding: 14px;
-
-      margin-top: 14px;
-
-      border-radius: 12px;
-
-      background: #263b60;
-
-      color: #ffffff;
-
-      font-size: 15px;
-
-      font-weight: bold;
-
-    }
-
-
-    .refresh:active {
-
-      opacity: 0.75;
-
-    }
-
-
-    .signal {
-
-      text-align: center;
-
-      font-size: 42px;
-
-      font-weight: bold;
-
-      margin-top: 12px;
-
-    }
-
-
-    .score {
-
-      text-align: center;
-
-      font-size: 23px;
-
-      font-weight: bold;
-
-      margin-top: 4px;
-
-    }
-
-
-    .reason {
-
-      line-height: 1.65;
-
-      color: #d1d5db;
-
-      font-size: 14px;
-
-    }
-
-
-    .metric-grid {
-
-      display: grid;
-
-      grid-template-columns: 1fr 1fr;
-
-      gap: 10px;
-
-      margin-top: 15px;
-
-    }
-
-
-    .metric {
-
-      background: #0d1526;
-
-      border-radius: 12px;
-
-      padding: 13px;
-
-    }
-
-
-    .metric-title {
-
-      color: #9ca3af;
-
-      font-size: 11px;
-
-      margin-bottom: 5px;
-
-    }
-
-
-    .metric-value {
-
-      font-size: 16px;
-
-      font-weight: bold;
-
-    }
-
-
-    .chain-container {
-
-      margin-top: 15px;
-
-      overflow-x: auto;
-
-      border-radius: 12px;
-
-      -webkit-overflow-scrolling: touch;
-
-    }
-
-
-    table {
-
-      width: 100%;
-
-      min-width: 570px;
-
-      border-collapse: collapse;
-
-      font-size: 11px;
-
-    }
-
-
-    th {
-
-      background: #222c3d;
-
-      color: #d1d5db;
-
-      padding: 10px 5px;
-
-      white-space: nowrap;
-
-    }
-
-
-    td {
-
-      padding: 9px 5px;
-
-      text-align: center;
-
-      border-bottom: 1px solid #253149;
-
-      white-space: nowrap;
-
-    }
-
-
-    tbody tr {
-
-      background: #111827;
-
-    }
-
-
-    tbody tr.atm {
-
-      background: rgba(37, 99, 235, 0.30);
-
-      box-shadow:
-        inset 3px 0 0 #60a5fa,
-        inset -3px 0 0 #60a5fa;
-
-    }
-
-
-    .ce {
-
-      color: #60a5fa;
-
-    }
-
-
-    .pe {
-
-      color: #f472b6;
-
-    }
-
-
-    .strike {
-
-      color: #ffffff;
-
-      font-weight: bold;
-
-    }
-
-
-    .chain-header {
-
-      display: flex;
-
-      justify-content: space-between;
-
-      gap: 12px;
-
-      flex-wrap: wrap;
-
-      margin-top: 8px;
-
-      font-size: 14px;
-
-    }
-
-
-    .atm-badge {
-
-      color: #60a5fa;
-
-    }
-
-
-    .expiry-badge {
-
-      color: #fbbf24;
-
-    }
-
-
-    input,
-    select {
-
-      width: 100%;
-
-      padding: 13px;
-
-      margin-top: 9px;
-
-      border-radius: 10px;
-
-      border: 1px solid #334155;
-
-      background: #0d1526;
-
-      color: #ffffff;
-
-      font-size: 14px;
-
-    }
-
-
-    .hidden {
-
-      display: none;
-
-    }
-
-
-    .section-title {
-
-      font-size: 22px;
-
-      font-weight: bold;
-
-      margin-bottom: 14px;
-
-    }
-
-
-    .footer {
-
-      text-align: center;
-
-      color: #718096;
-
-      font-size: 11px;
-
-      margin-top: 25px;
-
-    }
-
-
-    @media (max-width: 500px) {
-
-      .app {
-
-        padding: 13px;
-
-      }
-
-
-      .card {
-
-        padding: 15px;
-
-      }
-
-
-      .price {
-
-        font-size: 29px;
-
-      }
-
-
-      .signal {
-
-        font-size: 38px;
-
-      }
-
-
-      .metric-grid {
-
-        gap: 8px;
-
-      }
-
-    }
-
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Options Pro</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#fff;font:14px Arial,sans-serif}
+.app{max-width:760px;margin:auto;padding:16px 16px 70px}
+h1{margin:0;font-size:28px}
+.sub{color:#9ca3af;margin:5px 0}
+.mode{display:inline-block;margin-top:8px;padding:8px 13px;border-radius:20px;background:#172033;color:#60a5fa;font-weight:bold;font-size:12px}
+.tabs{display:flex;gap:8px;margin:20px 0}
+.tab{flex:1;padding:14px;border:1px solid #263650;border-radius:14px;background:#111827;color:#9ca3af;font-weight:bold}
+.tab.active{background:#2b4165;color:#fff}
+.card{background:#111827;border:1px solid #263650;border-radius:18px;padding:17px;margin-bottom:15px}
+.label{color:#9ca3af}
+.price{font-size:32px;font-weight:bold;margin-top:7px}
+.status{margin-top:12px}
+.green{color:#4ade80}
+.yellow{color:#facc15}
+.red{color:#f87171}
+.small{font-size:11px;color:#94a3b8;margin-top:8px}
+.btn{width:100%;padding:14px;margin-top:14px;border:0;border-radius:12px;background:#2b4165;color:#fff;font-weight:bold;font-size:15px}
+.signal{text-align:center;font-size:42px;font-weight:bold;margin-top:12px}
+.score{text-align:center;font-size:23px;font-weight:bold}
+.reason{line-height:1.6;color:#d1d5db}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+.metric{background:#0d1526;border-radius:12px;padding:13px}
+.mt{color:#9ca3af;font-size:11px}
+.mv{font-weight:bold;margin-top:5px}
+input,select{width:100%;padding:13px;margin-top:9px;border-radius:10px;border:1px solid #334155;background:#0d1526;color:#fff}
+table{width:100%;min-width:570px;border-collapse:collapse;font-size:11px}
+th{background:#222c3d;padding:10px 5px}
+td{padding:9px 5px;text-align:center;border-bottom:1px solid #253149}
+.ce{color:#60a5fa}
+.pe{color:#f472b6}
+.atm{background:rgba(37,99,235,.3)}
+.chain{overflow-x:auto;margin-top:15px}
+.head{display:flex;justify-content:space-between;margin-top:9px}
+.hidden{display:none}
+.err{color:#f87171}
+.footer{text-align:center;color:#718096;font-size:11px;margin-top:25px}
+</style>
 </head>
-
 
 <body>
 
-
 <div class="app">
 
+<h1>AI Options Pro</h1>
+<div class="sub">AI Options Research & Decision Assistant</div>
 
-  <!-- HEADER -->
+<div class="mode">PAPER MODE</div>
 
-  <h1>AI Options Pro</h1>
+<div class="tabs">
+<button class="tab active" onclick="tab('dash',this)">Dashboard</button>
+<button class="tab" onclick="tab('ask',this)">Ask AI</button>
+</div>
 
-  <div class="subtitle">
-    AI Options Research & Decision Assistant
-  </div>
+<div id="dash">
 
-  <div class="mode">
-    PAPER MODE
-  </div>
+<div class="card">
+<div class="label">BANKNIFTY</div>
+<div id="bank" class="price">--</div>
 
+<div id="status" class="status yellow">
+Connecting to Kite...
+</div>
 
-  <!-- TABS -->
+<div class="small">
+Last update: <span id="time">--</span>
+</div>
 
-  <div class="tabs">
+<button class="btn" onclick="loadAll()">
+🔄 Refresh Market Data
+</button>
+</div>
 
-    <button
-      class="tab active"
-      onclick="showTab('dashboard', this)"
-    >
-      Dashboard
-    </button>
 
+<div class="card">
+<div class="label">NIFTY 50</div>
+<div id="nifty" class="price">--</div>
+</div>
 
-    <button
-      class="tab"
-      onclick="showTab('ask', this)"
-    >
-      Ask AI
-    </button>
 
-  </div>
+<div class="card">
 
+<div class="label">AI SETUP ANALYSIS</div>
 
-  <!-- DASHBOARD -->
+<div id="signal" class="signal yellow">
+WAIT
+</div>
 
-  <div id="dashboard">
+<div id="score" class="score">
+Score: --
+</div>
 
-
-    <!-- MARKET -->
-
-    <div class="card">
-
-      <div class="label">
-        BANKNIFTY
-      </div>
-
-      <div
-        id="bankPrice"
-        class="price"
-      >
-        --
-      </div>
-
-
-      <div
-        id="connection"
-        class="status yellow"
-      >
-        Connecting to Kite...
-      </div>
-
-
-      <div class="small">
-
-        Last update:
-        <span id="updated">--</span>
-
-      </div>
-
-
-      <button
-        class="refresh"
-        onclick="loadAllData()"
-      >
-        🔄 Refresh Market Data
-      </button>
-
-    </div>
-
-
-    <!-- NIFTY -->
-
-    <div class="card">
-
-      <div class="label">
-        NIFTY 50
-      </div>
-
-      <div
-        id="niftyPrice"
-        class="price"
-      >
-        --
-      </div>
-
-    </div>
-
-
-    <!-- AI ANALYSIS -->
-
-    <div class="card">
-
-      <div class="label">
-        AI SETUP ANALYSIS
-      </div>
-
-
-      <div
-        id="signal"
-        class="signal yellow"
-      >
-        WAIT
-      </div>
-
-
-      <div
-        id="score"
-        class="score"
-      >
-        Score: --
-      </div>
-
-
-      <div
-        id="why"
-        class="reason"
-        style="margin-top:18px;"
-      >
-        Loading market analysis...
-      </div>
-
-    </div>
-
-
-    <!-- OPTION CHAIN -->
-
-    <div class="card">
-
-      <div class="label">
-        BANKNIFTY OPTION CHAIN
-      </div>
-
-
-      <div class="chain-header">
-
-        <div>
-          <b>ATM:</b>
-
-          <span
-            id="atmStrike"
-            class="atm-badge"
-          >
-            --
-          </span>
-        </div>
-
-
-        <div>
-          <b>Expiry:</b>
-
-          <span
-            id="expiry"
-            class="expiry-badge"
-          >
-            --
-          </span>
-        </div>
-
-      </div>
-
-
-      <div class="chain-container">
-
-        <table>
-
-          <thead>
-
-            <tr>
-
-              <th class="ce">
-                CE LTP
-              </th>
-
-              <th class="ce">
-                CE OI
-              </th>
-
-              <th>
-                STRIKE
-              </th>
-
-              <th class="pe">
-                PE OI
-              </th>
-
-              <th class="pe">
-                PE LTP
-              </th>
-
-            </tr>
-
-          </thead>
-
-
-          <tbody
-            id="optionChainBody"
-          >
-
-            <tr>
-
-              <td colspan="5">
-                Loading option chain...
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-
-      <div
-        class="small"
-        style="text-align:center;"
-      >
-        Swipe left/right to view the complete option chain
-      </div>
-
-    </div>
-
-
-    <!-- OI SUMMARY -->
-
-    <div class="card">
-
-      <div class="section-title">
-        OI Analysis
-      </div>
-
-
-      <div class="metric-grid">
-
-
-        <div class="metric">
-
-          <div class="metric-title">
-            PCR
-          </div>
-
-          <div
-            id="pcr"
-            class="metric-value"
-          >
-            --
-          </div>
-
-        </div>
-
-
-        <div class="metric">
-
-          <div class="metric-title">
-            Market Bias
-          </div>
-
-          <div
-            id="bias"
-            class="metric-value"
-          >
-            --
-          </div>
-
-        </div>
-
-
-        <div class="metric">
-
-          <div class="metric-title">
-            CE Resistance
-          </div>
-
-          <div
-            id="resistance"
-            class="metric-value"
-          >
-            --
-          </div>
-
-        </div>
-
-
-        <div class="metric">
-
-          <div class="metric-title">
-            PE Support
-          </div>
-
-          <div
-            id="support"
-            class="metric-value"
-          >
-            --
-          </div>
-
-        </div>
-
-
-      </div>
-
-    </div>
-
-
-    <!-- RISK -->
-
-    <div class="card">
-
-      <div class="section-title">
-        Risk Calculator
-      </div>
-
-
-      <div class="label">
-        Capital
-      </div>
-
-      <input
-        id="capital"
-        type="number"
-        placeholder="Example: 100000"
-      >
-
-
-      <div
-        class="label"
-        style="display:block;margin-top:12px;"
-      >
-        Risk per Trade %
-      </div>
-
-      <input
-        id="riskPercent"
-        type="number"
-        value="1"
-        step="0.1"
-        placeholder="1"
-      >
-
-
-      <button
-        class="refresh"
-        onclick="calculateRisk()"
-      >
-        Calculate Risk
-      </button>
-
-
-      <p
-        id="riskResult"
-        class="reason"
-      ></p>
-
-    </div>
-
-
-    <!-- HISTORICAL -->
-
-    <div class="card">
-
-      <div class="section-title">
-        Historical Analysis
-      </div>
-
-
-      <select id="history">
-
-        <option value="1M">
-          Last 1 Month
-        </option>
-
-        <option value="3M">
-          Last 3 Months
-        </option>
-
-        <option value="1Y">
-          Last 1 Year
-        </option>
-
-        <option value="3Y">
-          Last 3 Years
-        </option>
-
-        <option value="5Y">
-          Last 5 Years
-        </option>
-
-        <option value="10Y">
-          Last 10 Years
-        </option>
-
-      </select>
-
-
-      <div class="metric-grid">
-
-
-        <div class="metric">
-
-          <div class="metric-title">
-            Win Rate
-          </div>
-
-          <div class="metric-value">
-            --
-          </div>
-
-        </div>
-
-
-        <div class="metric">
-
-          <div class="metric-title">
-            Profit Factor
-          </div>
-
-          <div class="metric-value">
-            --
-          </div>
-
-        </div>
-
-
-        <div class="metric">
-
-          <div class="metric-title">
-            Max Drawdown
-          </div>
-
-          <div class="metric-value">
-            --
-          </div>
-
-        </div>
-
-
-        <div class="metric">
-
-          <div class="metric-title">
-            Signals
-          </div>
-
-          <div class="metric-value">
-            --
-          </div>
-
-        </div>
-
-
-      </div>
-
-
-      <div class="small">
-
-        Historical backtesting engine will be
-        connected after the live analysis engine.
-
-      </div>
-
-    </div>
-
-
-  </div>
-
-
-  <!-- ASK AI -->
-
-  <div
-    id="ask"
-    class="hidden"
-  >
-
-
-    <div class="card">
-
-      <div class="section-title">
-        Ask AI
-      </div>
-
-
-      <div class="label">
-        Ask about the current setup
-      </div>
-
-
-      <input
-        id="question"
-        placeholder="Abhi trade lena chahiye?"
-      >
-
-
-      <button
-        class="refresh"
-        onclick="askAI()"
-      >
-        🤖 Ask AI
-      </button>
-
-
-      <div
-        id="answer"
-        class="reason"
-        style="margin-top:18px;"
-      >
-        Ask me about the current market setup.
-
-      </div>
-
-    </div>
-
-
-  </div>
-
-
-  <div class="footer">
-
-    Educational decision-support prototype
-    • Not financial advice
-
-  </div>
-
+<div id="why" class="reason">
+Waiting for live option-chain analysis...
+</div>
 
 </div>
 
 
+<div class="card">
+
+<div class="label">
+BANKNIFTY OPTION CHAIN
+</div>
+
+<div class="head">
+
+<b>
+ATM:
+<span id="atm" class="ce">--</span>
+</b>
+
+<b>
+Expiry:
+<span id="exp" class="yellow">--</span>
+</b>
+
+</div>
+
+<div class="chain">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th class="ce">
+CE LTP
+</th>
+
+<th class="ce">
+CE OI
+</th>
+
+<th>
+STRIKE
+</th>
+
+<th class="pe">
+PE OI
+</th>
+
+<th class="pe">
+PE LTP
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="body">
+
+<tr>
+<td colspan="5">
+Loading option chain...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="small" style="text-align:center">
+Swipe left/right to view complete option chain
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>OI Analysis</h2>
+
+<div class="grid">
+
+<div class="metric">
+<div class="mt">PCR</div>
+<div id="pcr" class="mv">--</div>
+</div>
+
+<div class="metric">
+<div class="mt">Market Bias</div>
+<div id="bias" class="mv">--</div>
+</div>
+
+<div class="metric">
+<div class="mt">CE Resistance</div>
+<div id="res" class="mv">--</div>
+</div>
+
+<div class="metric">
+<div class="mt">PE Support</div>
+<div id="sup" class="mv">--</div>
+</div>
+
+<div class="metric">
+<div class="mt">CE OI</div>
+<div id="ceoi" class="mv">--</div>
+</div>
+
+<div class="metric">
+<div class="mt">PE OI</div>
+<div id="peoi" class="mv">--</div>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Risk Calculator</h2>
+
+<div class="label">
+Capital
+</div>
+
+<input
+id="capital"
+type="number"
+placeholder="Example: 100000"
+>
+
+<div class="label" style="margin-top:12px">
+Risk per Trade %
+</div>
+
+<input
+id="riskpct"
+type="number"
+value="1"
+step="0.1"
+>
+
+<button class="btn" onclick="risk()">
+Calculate Risk
+</button>
+
+<p id="riskout" class="reason"></p>
+
+</div>
+
+
+<div class="card">
+
+<h2>Historical Analysis</h2>
+
+<select>
+
+<option>Last 1 Month</option>
+<option>Last 3 Months</option>
+<option>Last 1 Year</option>
+<option>Last 3 Years</option>
+<option>Last 5 Years</option>
+<option>Last 10 Years</option>
+
+</select>
+
+<div class="small">
+Backtesting engine will be connected after the live analysis engine.
+Historical option-premium testing needs suitable historical option data.
+</div>
+
+</div>
+
+</div>
+
+
+<div id="ask" class="hidden">
+
+<div class="card">
+
+<h2>Ask AI</h2>
+
+<input
+id="q"
+placeholder="Abhi trade lena chahiye?"
+>
+
+<button class="btn" onclick="ask()">
+🤖 Ask AI
+</button>
+
+<div
+id="ans"
+class="reason"
+style="margin-top:18px"
+>
+Ask me about the current market setup.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="footer">
+Educational decision-support prototype • Paper mode • Not financial advice
+</div>
+
+</div>
+
 
 <script>
 
+const Q =
+'https://ai-options-pro-6sl9.vercel.app/api/kite/quote';
 
-/* =====================================================
-   API CONFIGURATION
-===================================================== */
+const O =
+'https://ai-options-pro-6sl9.vercel.app/api/kite/option-chain';
 
-
-const QUOTE_API =
-  "https://ai-options-pro-6sl9.vercel.app/api/kite/quote";
-
-
-const OPTION_API =
-  "https://ai-options-pro-6sl9.vercel.app/api/kite/option-chain";
+let md = null;
+let od = null;
+let busy = false;
 
 
-let marketData = null;
-
-let optionData = null;
-
+const $ = id =>
+document.getElementById(id);
 
 
-/* =====================================================
-   TAB SWITCH
-===================================================== */
-
-
-function showTab(tab, button) {
-
-
-  document
-    .getElementById("dashboard")
-    .classList.toggle(
-      "hidden",
-      tab !== "dashboard"
-    );
-
-
-  document
-    .getElementById("ask")
-    .classList.toggle(
-      "hidden",
-      tab !== "ask"
-    );
-
-
-  document
-    .querySelectorAll(".tab")
-    .forEach(btn => {
-
-      btn.classList.remove("active");
-
-    });
-
-
-  button.classList.add("active");
-
+const fmt = (v,d=2) =>
+v==null || v==='' || isNaN(v)
+? '--'
+: Number(v).toLocaleString(
+'en-IN',
+{
+minimumFractionDigits:d,
+maximumFractionDigits:d
 }
-
-
-
-/* =====================================================
-   LOAD EVERYTHING
-===================================================== */
-
-
-async function loadAllData() {
-
-
-  await loadMarketData();
-
-
-  await loadOptionChain();
-
-
-  calculateSignal();
-
-}
-
-
-
-/* =====================================================
-   MARKET DATA
-===================================================== */
-
-
-async function loadMarketData() {
-
-
-  try {
-
-
-    const response =
-      await fetch(QUOTE_API);
-
-
-    const result =
-      await response.json();
-
-
-    if (
-      result.status !== "success"
-    ) {
-
-      throw new Error(
-        result.message ||
-        "Market data error"
-      );
-
-    }
-
-
-    marketData =
-      result.data;
-
-
-    const bank =
-      marketData[
-        "NSE:NIFTY BANK"
-      ].last_price;
-
-
-    const nifty =
-      marketData[
-        "NSE:NIFTY 50"
-      ].last_price;
-
-
-    document
-      .getElementById("bankPrice")
-      .innerText =
-      formatNumber(bank, 2);
-
-
-    document
-      .getElementById("niftyPrice")
-      .innerText =
-      formatNumber(nifty, 2);
-
-
-    document
-      .getElementById("connection")
-      .innerText =
-      "🟢 Kite Connected";
-
-
-    document
-      .getElementById("connection")
-      .className =
-      "status green";
-
-
-    document
-      .getElementById("updated")
-      .innerText =
-      new Date()
-        .toLocaleTimeString();
-
-
-  }
-
-  catch (error) {
-
-
-    console.error(
-      "Market error:",
-      error
-    );
-
-
-    document
-      .getElementById("connection")
-      .innerText =
-      "🔴 Market data error";
-
-
-    document
-      .getElementById("connection")
-      .className =
-      "status red";
-
-  }
-
-}
-
-
-
-/* =====================================================
-   OPTION CHAIN
-===================================================== */
-
-
-async function loadOptionChain() {
-
-
-  const body =
-    document
-      .getElementById(
-        "optionChainBody"
-      );
-
-
-  try {
-
-
-    body.innerHTML = `
-
-      <tr>
-
-        <td colspan="5">
-          Loading option chain...
-        </td>
-
-      </tr>
-
-    `;
-
-
-    const response =
-      await fetch(OPTION_API);
-
-
-    const result =
-      await response.json();
-
-
-    if (
-      result.status !== "success"
-    ) {
-
-      throw new Error(
-        result.message ||
-        "Option chain error"
-      );
-
-    }
-
-
-    optionData =
-      result;
-
-
-    document
-      .getElementById("atmStrike")
-      .innerText =
-      formatNumber(
-        result.atm_strike,
-        0
-      );
-
-
-    document
-      .getElementById("expiry")
-      .innerText =
-      result.expiry;
-
-
-    body.innerHTML = "";
-
-
-    result.data.forEach(row => {
-
-
-      const tr =
-        document.createElement("tr");
-
-
-      const strike =
-        Number(row.strike);
-
-
-      const ce =
-        row.CE || {};
-
-
-      const pe =
-        row.PE || {};
-
-
-      if (
-        strike ===
-        Number(result.atm_strike)
-      ) {
-
-        tr.classList.add("atm");
-
-      }
-
-
-      tr.innerHTML = `
-
-        <td class="ce">
-
-          ${formatNumber(
-            ce.ltp,
-            2
-          )}
-
-        </td>
-
-
-        <td class="ce">
-
-          ${formatNumber(
-            ce.oi,
-            0
-          )}
-
-        </td>
-
-
-        <td class="strike">
-
-          ${formatNumber(
-            strike,
-            0
-          )}
-
-        </td>
-
-
-        <td class="pe">
-
-          ${formatNumber(
-            pe.oi,
-            0
-          )}
-
-        </td>
-
-
-        <td class="pe">
-
-          ${formatNumber(
-            pe.ltp,
-            2
-          )}
-
-        </td>
-
-      `;
-
-
-      body.appendChild(tr);
-
-
-    });
-
-
-  }
-
-  catch (error) {
-
-
-    console.error(
-      "Option chain error:",
-      error
-    );
-
-
-    body.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="5"
-          style="color:#f87171;"
-        >
-
-          Option chain unavailable
-
-        </td>
-
-      </tr>
-
-    `;
-
-
-  }
-
-}
-
-
-
-/* =====================================================
-   NUMBER FORMAT
-===================================================== */
-
-
-function formatNumber(
-  value,
-  decimals = 2
-) {
-
-
-  if (
-    value === undefined ||
-    value === null ||
-    value === "" ||
-    Number.isNaN(Number(value))
-  ) {
-
-    return "--";
-
-  }
-
-
-  return Number(value)
-    .toLocaleString(
-      "en-IN",
-      {
-        minimumFractionDigits:
-          decimals,
-        maximumFractionDigits:
-          decimals
-      }
-    );
-
-}
-
-
-
-/* =====================================================
-   OI ANALYSIS + SETUP SCORE
-===================================================== */
-
-
-function calculateSignal() {
-
-
-  const signal =
-    document.getElementById(
-      "signal"
-    );
-
-
-  const scoreEl =
-    document.getElementById(
-      "score"
-    );
-
-
-  const why =
-    document.getElementById(
-      "why"
-    );
-
-
-  const pcrEl =
-    document.getElementById(
-      "pcr"
-    );
-
-
-  const biasEl =
-    document.getElementById(
-      "bias"
-    );
-
-
-  const resistanceEl =
-    document.getElementById(
-      "resistance"
-    );
-
-
-  const supportEl =
-    document.getElementById(
-      "support"
-    );
-
-
-  if (
-    !optionData ||
-    !optionData.data ||
-    !optionData.data.length
-  ) {
-
-
-    signal.innerText =
-      "WAIT";
-
-
-    signal.className =
-      "signal yellow";
-
-
-    scoreEl.innerText =
-      "Score: --";
-
-
-    why.innerText =
-      "Option-chain data is not available yet.";
-
-
-    return;
-
-  }
-
-
-  const chain =
-    optionData.data;
-
-
-  let totalCEOI = 0;
-
-  let totalPEOI = 0;
-
-
-  let highestCEOI = 0;
-
-  let highestPEOI = 0;
-
-
-  let ceResistance = null;
-
-  let peSupport = null;
-
-
-  let totalCEVolume = 0;
-
-  let totalPEVolume = 0;
-
-
-  chain.forEach(row => {
-
-
-    const ce =
-      row.CE || {};
-
-
-    const pe =
-      row.PE || {};
-
-
-    const ceOI =
-      Number(ce.oi || 0);
-
-
-    const peOI =
-      Number(pe.oi || 0);
-
-
-    const ceVolume =
-      Number(ce.volume || 0);
-
-
-    const peVolume =
-      Number(pe.volume || 0);
-
-
-    totalCEOI +=
-      ceOI;
-
-
-    totalPEOI +=
-      peOI;
-
-
-    totalCEVolume +=
-      ceVolume;
-
-
-    totalPEVolume +=
-      peVolume;
-
-
-    if (
-      ceOI >
-      highestCEOI
-    ) {
-
-      highestCEOI =
-        ceOI;
-
-      ceResistance =
-        Number(row.strike);
-
-    }
-
-
-    if (
-      peOI >
-      highestPEOI
-    ) {
-
-      highestPEOI =
-        peOI;
-
-      peSupport =
-        Number(row.strike);
-
-    }
-
-
-  });
-
-
-
-  /* PCR */
-
-  const pcr =
-    totalCEOI > 0
-      ? totalPEOI / totalCEOI
-      : 0;
-
-
-
-  /* Current BANKNIFTY */
-
-  const banknifty =
-    Number(
-      optionData.banknifty
-    );
-
-
-  const atm =
-    Number(
-      optionData.atm_strike
-    );
-
-
-
-  /* =================================================
-     SCORE
-  ================================================= */
-
-
-  let score = 50;
-
-
-  let bias =
-    "NEUTRAL";
-
-
-  let reasons = [];
-
-
-
-  /* PCR */
-
-  if (
-    pcr >= 1.30
-  ) {
-
-
-    score += 20;
-
-
-    bias =
-      "BULLISH";
-
-
-    reasons.push(
-      "PCR is strongly bullish."
-    );
-
-
-  }
-
-  else if (
-    pcr >= 1.10
-  ) {
-
-
-    score += 10;
-
-
-    bias =
-      "MILD BULLISH";
-
-
-    reasons.push(
-      "PCR shows mild bullish positioning."
-    );
-
-
-  }
-
-  else if (
-    pcr <= 0.75
-  ) {
-
-
-    score -= 20;
-
-
-    bias =
-      "BEARISH";
-
-
-    reasons.push(
-      "PCR is strongly bearish."
-    );
-
-
-  }
-
-  else if (
-    pcr <= 0.90
-  ) {
-
-
-    score -= 10;
-
-
-    bias =
-      "MILD BEARISH";
-
-
-    reasons.push(
-      "PCR shows mild bearish positioning."
-    );
-
-
-  }
-
-  else {
-
-
-    reasons.push(
-      "PCR is relatively neutral."
-    );
-
-  }
-
-
-
-  /* Price vs ATM */
-
-  if (
-    banknifty >
-    atm
-  ) {
-
-
-    score += 5;
-
-
-    reasons.push(
-      "BANKNIFTY is above ATM."
-    );
-
-
-  }
-
-  else if (
-    banknifty <
-    atm
-  ) {
-
-
-    score -= 5;
-
-
-    reasons.push(
-      "BANKNIFTY is below ATM."
-    );
-
-
-  }
-
-
-
-  /* Resistance proximity */
-
-  if (
-    ceResistance !== null
-  ) {
-
-
-    const distance =
-      Math.abs(
-        banknifty -
-        ceResistance
-      );
-
-
-    if (
-      distance <= 300
-    ) {
-
-
-      score -= 5;
-
-
-      reasons.push(
-        "Price is close to major CE OI resistance."
-      );
-
-    }
-
-  }
-
-
-
-  /* Support proximity */
-
-  if (
-    peSupport !== null
-  ) {
-
-
-    const distance =
-      Math.abs(
-        banknifty -
-        peSupport
-      );
-
-
-    if (
-      distance <= 300
-    ) {
-
-
-      score += 5;
-
-
-      reasons.push(
-        "Price is close to major PE OI support."
-      );
-
-    }
-
-  }
-
-
-
-  /* Keep 0-100 */
-
-  score =
-    Math.max(
-      0,
-      Math.min(
-        100,
-        Math.round(score)
-      )
-    );
-
-
-
-  /* =================================================
-     DECISION
-  ================================================= */
-
-
-  let decision =
-    "WAIT";
-
-
-  let signalClass =
-    "signal yellow";
-
-
-  /*
-    Conservative thresholds.
-
-    CALL only >= 75
-    PUT only <= 25
-    Otherwise WAIT
-  */
-
-
-  if (
-    score >= 75
-  ) {
-
-
-    decision =
-      "CALL";
-
-
-    signalClass =
-      "signal green";
-
-  }
-
-  else if (
-    score <= 25
-  ) {
-
-
-    decision =
-      "PUT";
-
-
-    signalClass =
-      "signal red";
-
-  }
-
-
-
-  /* Display */
-
-  signal.innerText =
-    decision;
-
-
-  signal.className =
-    signalClass;
-
-
-  scoreEl.innerText =
-    `Score: ${score}/100`;
-
-
-
-  /* OI cards */
-
-  pcrEl.innerText =
-    pcr.toFixed(2);
-
-
-  biasEl.innerText =
-    bias;
-
-
-  resistanceEl.innerText =
-    ceResistance !== null
-      ? formatNumber(
-          ceResistance,
-          0
-        )
-      : "--";
-
-
-  supportEl.innerText =
-    peSupport !== null
-      ? formatNumber(
-          peSupport,
-          0
-        )
-      : "--";
-
-
-
-  /* WHY */
-
-  why.innerHTML = `
-
-    <b>Current Decision: ${decision}</b>
-
-    <br><br>
-
-    ${reasons
-      .map(
-        r => `• ${r}`
-      )
-      .join("<br>")}
-
-    <br><br>
-
-    <b>OI Summary</b>
-
-    <br>
-
-    Total CE OI:
-    ${formatNumber(
-      totalCEOI,
-      0
-    )}
-
-    <br>
-
-    Total PE OI:
-    ${formatNumber(
-      totalPEOI,
-      0
-    )}
-
-    <br>
-
-    Highest CE OI:
-    ${formatNumber(
-      highestCEOI,
-      0
-    )}
-
-    <br>
-
-    Highest PE OI:
-    ${formatNumber(
-      highestPEOI,
-      0
-    )}
-
-    <br><br>
-
-    <span class="small">
-
-      Current model uses OI, PCR and
-      price/ATM positioning only.
-
-      <br>
-
-      Volume, OI change, VWAP, EMA,
-      RSI, ATR and breakout confirmation
-      will be added in the next analysis layer.
-
-    </span>
-
-  `;
-
-}
-
-
-
-/* =====================================================
-   RISK CALCULATOR
-===================================================== */
-
-
-function calculateRisk() {
-
-
-  const capital =
-    Number(
-      document.getElementById(
-        "capital"
-      ).value
-    );
-
-
-  const riskPercent =
-    Number(
-      document.getElementById(
-        "riskPercent"
-      ).value
-    );
-
-
-  const result =
-    document.getElementById(
-      "riskResult"
-    );
-
-
-  if (
-    !capital ||
-    capital <= 0
-  ) {
-
-
-    result.innerText =
-      "Please enter a valid capital amount.";
-
-
-    return;
-
-  }
-
-
-  if (
-    !riskPercent ||
-    riskPercent <= 0
-  ) {
-
-
-    result.innerText =
-      "Please enter a valid risk percentage.";
-
-
-    return;
-
-  }
-
-
-  const riskAmount =
-    capital *
-    riskPercent /
-    100;
-
-
-  result.innerHTML = `
-
-    Maximum planned risk per trade:
-
-    <b>
-      ₹${formatNumber(
-        riskAmount,
-        0
-      )}
-    </b>
-
-    <br><br>
-
-    Example:
-
-    If your capital is ₹1,00,000
-    and risk is 1%, maximum planned
-    loss is ₹1,000.
-
-  `;
-
-}
-
-
-
-/* =====================================================
-   ASK AI
-===================================================== */
-
-
-function askAI() {
-
-
-  const question =
-    document
-      .getElementById(
-        "question"
-      )
-      .value
-      .trim();
-
-
-  const answer =
-    document.getElementById(
-      "answer"
-    );
-
-
-  if (!question) {
-
-
-    answer.innerText =
-      "Please enter your question.";
-
-
-    return;
-
-  }
-
-
-  if (!optionData) {
-
-
-    answer.innerText =
-      "Market/option-chain data is not available yet. Please refresh.";
-
-
-    return;
-
-  }
-
-
-  const currentSignal =
-    document
-      .getElementById(
-        "signal"
-      )
-      .innerText;
-
-
-  const currentScore =
-    document
-      .getElementById(
-        "score"
-      )
-      .innerText;
-
-
-  const pcr =
-    document
-      .getElementById(
-        "pcr"
-      )
-      .innerText;
-
-
-  const resistance =
-    document
-      .getElementById(
-        "resistance"
-      )
-      .innerText;
-
-
-  const support =
-    document
-      .getElementById(
-        "support"
-      )
-      .innerText;
-
-
-  answer.innerHTML = `
-
-    <b>Current AI Options Pro view</b>
-
-    <br><br>
-
-    Decision:
-    <b>${currentSignal}</b>
-
-    <br>
-
-    ${currentScore}
-
-    <br><br>
-
-    PCR:
-    <b>${pcr}</b>
-
-    <br>
-
-    CE Resistance:
-    <b>${resistance}</b>
-
-    <br>
-
-    PE Support:
-    <b>${support}</b>
-
-    <br><br>
-
-    Your question:
-
-    <br>
-
-    <b>"${escapeHTML(
-      question
-    )}"</b>
-
-    <br><br>
-
-    The current prototype is using
-    option-chain OI/PCR analysis.
-
-    A complete AI answer engine will be
-    connected after VWAP, EMA, RSI, ATR,
-    volume and price-action confirmation
-    are added.
-
-  `;
-
-}
-
-
-
-/* =====================================================
-   HTML ESCAPE
-===================================================== */
-
-
-function escapeHTML(text) {
-
-
-  return text
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-
-
-/* =====================================================
-   INITIAL LOAD
-===================================================== */
-
-
-loadAllData();
-
-
-
-/* =====================================================
-   AUTO REFRESH
-===================================================== */
-
-
-setInterval(
-  loadAllData,
-  30000
 );
 
 
+function tab(t,b){
+
+$('dash').classList.toggle(
+'hidden',
+t!=='dash'
+);
+
+$('ask').classList.toggle(
+'hidden',
+t!=='ask'
+);
+
+document
+.querySelectorAll('.tab')
+.forEach(x =>
+x.classList.remove('active')
+);
+
+b.classList.add('active');
+
+}
+
+
+async function get(url,ms=12000){
+
+let c = new AbortController();
+
+let tm =
+setTimeout(
+()=>c.abort(),
+ms
+);
+
+try{
+
+let r =
+await fetch(
+url,
+{
+cache:'no-store',
+signal:c.signal
+}
+);
+
+let tx =
+await r.text();
+
+let x;
+
+try{
+
+x =
+JSON.parse(tx);
+
+}
+catch(e){
+
+throw Error(
+'Invalid server response (HTTP '+r.status+')'
+);
+
+}
+
+if(
+!r.ok ||
+x.status!=='success'
+){
+
+throw Error(
+x.message ||
+'API request failed'
+);
+
+}
+
+return x;
+
+}
+
+catch(e){
+
+if(
+e.name==='AbortError'
+){
+
+throw Error(
+'Request timed out. Tap Refresh and try again.'
+);
+
+}
+
+throw e;
+
+}
+
+finally{
+
+clearTimeout(tm);
+
+}
+
+}
+
+
+async function loadAll(){
+
+if(busy)
+return;
+
+busy=true;
+
+$('status').textContent =
+'Loading live data...';
+
+$('status').className =
+'status yellow';
+
+$('body').innerHTML =
+'<tr><td colspan="5">Loading option chain...</td></tr>';
+
+
+try{
+
+let [a,b] =
+await Promise.allSettled(
+[
+get(Q),
+get(O)
+]
+);
+
+
+if(
+a.status==='fulfilled'
+){
+
+renderM(a.value);
+
+}
+
+else{
+
+$('status').textContent =
+'🔴 Market data error: '+
+a.reason.message;
+
+$('status').className =
+'status red';
+
+}
+
+
+if(
+b.status==='fulfilled'
+){
+
+renderO(b.value);
+
+}
+
+else{
+
+$('body').innerHTML =
+'<tr><td colspan="5" class="err">'+
+'Option chain error: '+
+esc(b.reason.message)+
+'</td></tr>';
+
+od=null;
+
+}
+
+
+signal();
+
+}
+
+finally{
+
+busy=false;
+
+}
+
+}
+
+
+function renderM(x){
+
+md=x.data;
+
+$('bank').textContent =
+fmt(
+md['NSE:NIFTY BANK']?.last_price
+);
+
+$('nifty').textContent =
+fmt(
+md['NSE:NIFTY 50']?.last_price
+);
+
+$('status').textContent =
+'🟢 Kite Connected';
+
+$('status').className =
+'status green';
+
+$('time').textContent =
+new Date().toLocaleTimeString();
+
+}
+
+
+function renderO(x){
+
+od=x;
+
+$('atm').textContent =
+fmt(
+x.atm_strike,
+0
+);
+
+$('exp').textContent =
+x.expiry || '--';
+
+$('body').innerHTML='';
+
+
+(x.data||[]).forEach(r=>{
+
+let ce =
+r.CE || {};
+
+let pe =
+r.PE || {};
+
+let tr =
+document.createElement('tr');
+
+
+if(
++r.strike ===
++x.atm_strike
+){
+
+tr.className='atm';
+
+}
+
+
+tr.innerHTML =
+
+`<td class="ce">
+${fmt(ce.ltp)}
+</td>
+
+<td class="ce">
+${fmt(ce.oi,0)}
+</td>
+
+<td>
+<b>
+${fmt(r.strike,0)}
+</b>
+</td>
+
+<td class="pe">
+${fmt(pe.oi,0)}
+</td>
+
+<td class="pe">
+${fmt(pe.ltp)}
+</td>`;
+
+
+$('body')
+.appendChild(tr);
+
+});
+
+}
+
+
+function signal(){
+
+if(
+!od?.data?.length
+){
+
+$('signal').textContent =
+'WAIT';
+
+$('score').textContent =
+'Score: --';
+
+$('why').textContent =
+'Option-chain data is not available yet.';
+
+return;
+
+}
+
+
+let ceoi=0;
+let peoi=0;
+
+let maxc=0;
+let maxp=0;
+
+let res=null;
+let sup=null;
+
+
+od.data.forEach(r=>{
+
+let c =
++(r.CE?.oi||0);
+
+let p =
++(r.PE?.oi||0);
+
+ceoi += c;
+peoi += p;
+
+
+if(c>maxc){
+
+maxc=c;
+res=+r.strike;
+
+}
+
+
+if(p>maxp){
+
+maxp=p;
+sup=+r.strike;
+
+}
+
+});
+
+
+let pcr =
+ceoi
+? peoi/ceoi
+: 0;
+
+let bank =
++od.banknifty;
+
+let atm =
++od.atm_strike;
+
+let score=50;
+
+let bias='NEUTRAL';
+
+let rs=[];
+
+
+if(pcr>=1.3){
+
+score+=20;
+bias='BULLISH';
+
+rs.push(
+'PCR is above 1.30'
+);
+
+}
+
+else if(pcr>=1.1){
+
+score+=10;
+bias='MILD BULLISH';
+
+rs.push(
+'PCR is mildly bullish'
+);
+
+}
+
+else if(pcr<=.75){
+
+score-=20;
+bias='BEARISH';
+
+rs.push(
+'PCR is below 0.75'
+);
+
+}
+
+else if(pcr<=.9){
+
+score-=10;
+bias='MILD BEARISH';
+
+rs.push(
+'PCR is mildly bearish'
+);
+
+}
+
+else{
+
+rs.push(
+'PCR is relatively neutral'
+);
+
+}
+
+
+if(bank>atm){
+
+score+=5;
+
+rs.push(
+'BANKNIFTY is above ATM'
+);
+
+}
+
+else if(bank<atm){
+
+score-=5;
+
+rs.push(
+'BANKNIFTY is below ATM'
+);
+
+}
+
+
+if(
+res!=null &&
+Math.abs(bank-res)<=300
+){
+
+score-=5;
+
+rs.push(
+'Price is close to major CE OI resistance'
+);
+
+}
+
+
+if(
+sup!=null &&
+Math.abs(bank-sup)<=300
+){
+
+score+=5;
+
+rs.push(
+'Price is close to major PE OI support'
+);
+
+}
+
+
+score =
+Math.max(
+0,
+Math.min(
+100,
+Math.round(score)
+)
+);
+
+
+let d =
+score>=75
+? 'CALL'
+: score<=25
+? 'PUT'
+: 'WAIT';
+
+
+$('signal').textContent =
+d;
+
+$('signal').className =
+'signal '+
+(
+d==='CALL'
+? 'green'
+: d==='PUT'
+? 'red'
+: 'yellow'
+);
+
+
+$('score').textContent =
+'Score: '+
+score+
+'/100';
+
+
+$('pcr').textContent =
+pcr.toFixed(2);
+
+$('bias').textContent =
+bias;
+
+$('res').textContent =
+res==null
+? '--'
+: fmt(res,0);
+
+$('sup').textContent =
+sup==null
+? '--'
+: fmt(sup,0);
+
+$('ceoi').textContent =
+fmt(ceoi,0);
+
+$('peoi').textContent =
+fmt(peoi,0);
+
+
+$('why').innerHTML =
+
+'<b>'+
+d+
+'</b> — score '+
+score+
+'/100.<br>'+
+
+rs
+.map(esc)
+.join('<br>')+
+
+(
+new Date().getDay()%6===0
+
+?
+
+'<br><br><span class="yellow">'+
+'Market is closed now; live volume/change signals cannot be evaluated.'+
+'</span>'
+
+: ''
+
+);
+
+}
+
+
+function risk(){
+
+let c =
++$('capital').value;
+
+let p =
++$('riskpct').value;
+
+
+$('riskout').textContent =
+
+c>0 && p>0
+
+?
+
+'Maximum planned loss per trade: ₹'+
+fmt(c*p/100,0)+
+' (before brokerage/slippage).'
+
+:
+
+'Enter valid capital and risk %.';
+
+}
+
+
+function ask(){
+
+let q =
+$('q').value.trim();
+
+
+if(!od){
+
+$('ans').textContent =
+'Live option-chain data is not loaded yet. Tap Refresh Market Data first.';
+
+return;
+
+}
+
+
+$('ans').innerHTML =
+
+'<b>Current setup:</b> '+
+$('signal').textContent+
+' | '+
+$('score').textContent+
+' | PCR '+
+$('pcr').textContent+
+
+'<br>CE resistance: '+
+$('res').textContent+
+
+' | PE support: '+
+$('sup').textContent+
+
+'<br><br>This is paper-mode OI/PCR analysis. Trend, VWAP, EMA, RSI, volume/OI change, volatility and risk controls should also be checked before any real trade.'+
+
+(
+q
+?
+
+'<br><br><b>Your question:</b> '+
+esc(q)
+
+:
+
+''
+
+);
+
+}
+
+
+function esc(s){
+
+return String(s)
+.replace(
+/[&<>"']/g,
+c=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+}[c])
+);
+
+}
+
+
+loadAll();
+
+
+setInterval(
+()=>{
+
+if(
+document.visibilityState==='visible'
+)
+
+loadAll();
+
+},
+30000
+);
+
 </script>
 
-
 </body>
-
 </html>
