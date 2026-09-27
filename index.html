@@ -1,1005 +1,2517 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Options Pro</title>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#0b1020;color:#fff;font:14px Arial,sans-serif}
-.app{max-width:760px;margin:auto;padding:16px 16px 70px}
-h1{margin:0;font-size:28px}
-.sub{color:#9ca3af;margin:5px 0}
-.mode{display:inline-block;margin-top:8px;padding:8px 13px;border-radius:20px;background:#172033;color:#60a5fa;font-weight:bold;font-size:12px}
-.tabs{display:flex;gap:8px;margin:20px 0}
-.tab{flex:1;padding:14px;border:1px solid #263650;border-radius:14px;background:#111827;color:#9ca3af;font-weight:bold}
-.tab.active{background:#2b4165;color:#fff}
-.card{background:#111827;border:1px solid #263650;border-radius:18px;padding:17px;margin-bottom:15px}
-.label{color:#9ca3af}
-.price{font-size:32px;font-weight:bold;margin-top:7px}
-.status{margin-top:12px}
-.green{color:#4ade80}
-.yellow{color:#facc15}
-.red{color:#f87171}
-.small{font-size:11px;color:#94a3b8;margin-top:8px}
-.btn{width:100%;padding:14px;margin-top:14px;border:0;border-radius:12px;background:#2b4165;color:#fff;font-weight:bold;font-size:15px}
-.signal{text-align:center;font-size:42px;font-weight:bold;margin-top:12px}
-.score{text-align:center;font-size:23px;font-weight:bold}
-.reason{line-height:1.6;color:#d1d5db}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
-.metric{background:#0d1526;border-radius:12px;padding:13px}
-.mt{color:#9ca3af;font-size:11px}
-.mv{font-weight:bold;margin-top:5px}
-input,select{width:100%;padding:13px;margin-top:9px;border-radius:10px;border:1px solid #334155;background:#0d1526;color:#fff}
-table{width:100%;min-width:570px;border-collapse:collapse;font-size:11px}
-th{background:#222c3d;padding:10px 5px}
-td{padding:9px 5px;text-align:center;border-bottom:1px solid #253149}
-.ce{color:#60a5fa}
-.pe{color:#f472b6}
-.atm{background:rgba(37,99,235,.3)}
-.chain{overflow-x:auto;margin-top:15px}
-.head{display:flex;justify-content:space-between;margin-top:9px}
-.hidden{display:none}
-.err{color:#f87171}
-.footer{text-align:center;color:#718096;font-size:11px;margin-top:25px}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:#07111f;
+  color:#e8eef7;
+}
+.container{
+  max-width:1250px;
+  margin:auto;
+  padding:18px;
+}
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:18px;
+}
+h1{margin:0;font-size:25px}
+h2{font-size:18px;margin:0 0 14px}
+h3{margin:0 0 8px}
+.muted{color:#91a0b5;font-size:13px}
+.status{
+  padding:8px 12px;
+  border-radius:20px;
+  background:#12243a;
+  font-size:13px;
+}
+.status.ok{color:#55e39a}
+.status.bad{color:#ff7272}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+.grid2{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+.card{
+  background:#0d1b2d;
+  border:1px solid #1c3049;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:14px;
+}
+.price{
+  font-size:26px;
+  font-weight:800;
+  margin-top:7px;
+}
+.green{color:#42e695}
+.red{color:#ff6473}
+.yellow{color:#ffc857}
+.blue{color:#62a8ff}
+
+button,select,input{
+  border:1px solid #29415e;
+  background:#10243a;
+  color:#fff;
+  border-radius:9px;
+  padding:10px 12px;
+}
+button{
+  cursor:pointer;
+  font-weight:700;
+}
+button:hover{background:#18334f}
+.controls{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.signal{
+  text-align:center;
+  padding:20px;
+  border-radius:14px;
+  border:1px solid #263d57;
+}
+.signal-title{
+  font-size:32px;
+  font-weight:900;
+}
+.score{
+  font-size:42px;
+  font-weight:900;
+  margin:5px 0;
+}
+.reason{
+  text-align:left;
+  margin-top:15px;
+  line-height:1.6;
+}
+.metric{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid #1b3047;
+}
+.metric:last-child{border-bottom:0}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+th,td{
+  padding:8px 5px;
+  border-bottom:1px solid #1c3047;
+  text-align:right;
+}
+th{
+  color:#9eb0c7;
+  position:sticky;
+  top:0;
+  background:#0d1b2d;
+}
+td.strike,th.strike{text-align:center;font-weight:800}
+.ce{color:#68d89c}
+.pe{color:#ff7582}
+.atm{
+  background:#182f48;
+}
+.resistance{
+  background:#3a2027;
+}
+.support{
+  background:#173629;
+}
+.scroll{
+  overflow:auto;
+  max-height:480px;
+}
+.badge{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:12px;
+  font-size:11px;
+  background:#1a3048;
+}
+.small{
+  font-size:12px;
+}
+#lastUpdate{
+  margin-top:5px;
+}
+.ask{
+  display:flex;
+  gap:8px;
+}
+.ask input{
+  flex:1;
+}
+.answer{
+  margin-top:12px;
+  line-height:1.6;
+  white-space:pre-line;
+}
+.warning{
+  background:#332a16;
+  border:1px solid #5a471d;
+  color:#ffd76a;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:14px;
+}
+.footer{
+  text-align:center;
+  color:#718198;
+  font-size:11px;
+  padding:20px;
+}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+}
+@media(max-width:550px){
+  .grid{grid-template-columns:1fr 1fr}
+  .container{padding:10px}
+  .card{padding:12px}
+  .price{font-size:21px}
+  .signal-title{font-size:27px}
+}
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-<h1>AI Options Pro</h1>
-<div class="sub">AI Options Research & Decision Assistant</div>
+<header>
+  <div>
+    <h1>🤖 AI Options Pro</h1>
+    <div class="muted">NIFTY & BANKNIFTY AI Market Analysis</div>
+  </div>
 
-<div class="mode">PAPER MODE</div>
+  <div id="connection" class="status">
+    Connecting...
+  </div>
+</header>
 
-<div class="tabs">
-<button class="tab active" onclick="tab('dash',this)">Dashboard</button>
-<button class="tab" onclick="tab('ask',this)">Ask AI</button>
+<div id="marketWarning" class="warning" style="display:none"></div>
+
+<div class="controls card">
+  <button onclick="refreshAll()">🔄 Refresh</button>
+
+  <select id="symbolSelect" onchange="changeSymbol()">
+    <option value="BANKNIFTY">BANKNIFTY</option>
+    <option value="NIFTY">NIFTY</option>
+  </select>
+
+  <select id="timeframe">
+    <option value="5minute">5 Minute</option>
+  </select>
+
+  <button onclick="runAnalysis()">🧠 Analyze</button>
 </div>
 
-<div id="dash">
-
-<div class="card">
-<div class="label">BANKNIFTY</div>
-<div id="bank" class="price">--</div>
-
-<div id="status" class="status yellow">
-Connecting to Kite...
-</div>
-
-<div class="small">
-Last update: <span id="time">--</span>
-</div>
-
-<button class="btn" onclick="loadAll()">
-🔄 Refresh Market Data
-</button>
-</div>
-
-
-<div class="card">
-<div class="label">NIFTY 50</div>
-<div id="nifty" class="price">--</div>
-</div>
-
-
-<div class="card">
-
-<div class="label">AI SETUP ANALYSIS</div>
-
-<div id="signal" class="signal yellow">
-WAIT
-</div>
-
-<div id="score" class="score">
-Score: --
-</div>
-
-<div id="why" class="reason">
-Waiting for live option-chain analysis...
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-BANKNIFTY OPTION CHAIN
-</div>
-
-<div class="head">
-
-<b>
-ATM:
-<span id="atm" class="ce">--</span>
-</b>
-
-<b>
-Expiry:
-<span id="exp" class="yellow">--</span>
-</b>
-
-</div>
-
-<div class="chain">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th class="ce">
-CE LTP
-</th>
-
-<th class="ce">
-CE OI
-</th>
-
-<th>
-STRIKE
-</th>
-
-<th class="pe">
-PE OI
-</th>
-
-<th class="pe">
-PE LTP
-</th>
-
-</tr>
-
-</thead>
-
-<tbody id="body">
-
-<tr>
-<td colspan="5">
-Loading option chain...
-</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-<div class="small" style="text-align:center">
-Swipe left/right to view complete option chain
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>OI Analysis</h2>
-
+<!-- MARKET -->
 <div class="grid">
 
-<div class="metric">
-<div class="mt">PCR</div>
-<div id="pcr" class="mv">--</div>
-</div>
+  <div class="card">
+    <div class="muted">BANKNIFTY</div>
+    <div id="bankPrice" class="price">--</div>
+    <div id="bankChange" class="small">--</div>
+  </div>
 
-<div class="metric">
-<div class="mt">Market Bias</div>
-<div id="bias" class="mv">--</div>
-</div>
+  <div class="card">
+    <div class="muted">NIFTY 50</div>
+    <div id="niftyPrice" class="price">--</div>
+    <div id="niftyChange" class="small">--</div>
+  </div>
 
-<div class="metric">
-<div class="mt">CE Resistance</div>
-<div id="res" class="mv">--</div>
-</div>
+  <div class="card">
+    <div class="muted">Selected</div>
+    <div id="selectedPrice" class="price">--</div>
+    <div id="selectedSymbol" class="small">BANKNIFTY</div>
+  </div>
 
-<div class="metric">
-<div class="mt">PE Support</div>
-<div id="sup" class="mv">--</div>
-</div>
-
-<div class="metric">
-<div class="mt">CE OI</div>
-<div id="ceoi" class="mv">--</div>
-</div>
-
-<div class="metric">
-<div class="mt">PE OI</div>
-<div id="peoi" class="mv">--</div>
-</div>
+  <div class="card">
+    <div class="muted">Market Status</div>
+    <div id="marketStatus" class="price small">--</div>
+    <div id="lastUpdate" class="muted">--</div>
+  </div>
 
 </div>
 
+<!-- AI SIGNAL -->
+<div class="card">
+  <h2>🧠 AI Setup</h2>
+
+  <div id="signalBox" class="signal">
+
+    <div class="muted">Current Decision</div>
+
+    <div id="signalTitle" class="signal-title yellow">
+      WAIT
+    </div>
+
+    <div class="muted">Confidence / Score</div>
+
+    <div id="score" class="score">
+      50
+    </div>
+
+    <div id="signalSummary">
+      Waiting for market analysis...
+    </div>
+
+    <div class="reason">
+
+      <div class="metric">
+        <span>Trend</span>
+        <b id="trend">--</b>
+      </div>
+
+      <div class="metric">
+        <span>EMA 9</span>
+        <b id="ema9">--</b>
+      </div>
+
+      <div class="metric">
+        <span>EMA 20</span>
+        <b id="ema20">--</b>
+      </div>
+
+      <div class="metric">
+        <span>EMA 50</span>
+        <b id="ema50">--</b>
+      </div>
+
+      <div class="metric">
+        <span>RSI 14</span>
+        <b id="rsi">--</b>
+      </div>
+
+      <div class="metric">
+        <span>ATR</span>
+        <b id="atr">--</b>
+      </div>
+
+      <div class="metric">
+        <span>PCR</span>
+        <b id="pcr">--</b>
+      </div>
+
+      <div class="metric">
+        <span>Support</span>
+        <b id="support">--</b>
+      </div>
+
+      <div class="metric">
+        <span>Resistance</span>
+        <b id="resistance">--</b>
+      </div>
+
+    </div>
+
+  </div>
 </div>
 
+<!-- TRADE PLAN -->
+<div class="grid2">
 
+  <div class="card">
+    <h2>📌 Trade Plan</h2>
+
+    <div class="metric">
+      <span>Decision</span>
+      <b id="tradeDecision">WAIT</b>
+    </div>
+
+    <div class="metric">
+      <span>Entry</span>
+      <b id="entry">--</b>
+    </div>
+
+    <div class="metric">
+      <span>Stop Loss</span>
+      <b id="sl">--</b>
+    </div>
+
+    <div class="metric">
+      <span>Target 1</span>
+      <b id="target1">--</b>
+    </div>
+
+    <div class="metric">
+      <span>Target 2</span>
+      <b id="target2">--</b>
+    </div>
+
+    <div class="metric">
+      <span>Risk / Reward</span>
+      <b id="rr">--</b>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <h2>🔍 Why?</h2>
+    <div id="why" class="answer">
+      Analysis will appear here.
+    </div>
+  </div>
+
+</div>
+
+<!-- OPTION CHAIN -->
 <div class="card">
 
-<h2>Risk Calculator</h2>
+  <h2>📊 Option Chain</h2>
 
-<div class="label">
-Capital
+  <div class="grid">
+
+    <div>
+      <div class="muted">Expiry</div>
+      <b id="expiry">--</b>
+    </div>
+
+    <div>
+      <div class="muted">ATM Strike</div>
+      <b id="atm">--</b>
+    </div>
+
+    <div>
+      <div class="muted">Call OI</div>
+      <b id="totalCE">--</b>
+    </div>
+
+    <div>
+      <div class="muted">Put OI</div>
+      <b id="totalPE">--</b>
+    </div>
+
+  </div>
+
+  <br>
+
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>CE OI</th>
+          <th>CE Chg</th>
+          <th>CE LTP</th>
+          <th class="strike">STRIKE</th>
+          <th>PE LTP</th>
+          <th>PE Chg</th>
+          <th>PE OI</th>
+        </tr>
+      </thead>
+
+      <tbody id="optionTable">
+        <tr>
+          <td colspan="7" style="text-align:center">
+            Loading...
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+
 </div>
 
-<input
-id="capital"
-type="number"
-placeholder="Example: 100000"
->
+<!-- MARKET STRUCTURE -->
+<div class="grid2">
 
-<div class="label" style="margin-top:12px">
-Risk per Trade %
+  <div class="card">
+    <h2>🟢 Support</h2>
+
+    <div class="metric">
+      <span>Highest PE OI</span>
+      <b id="highestPE">--</b>
+    </div>
+
+    <div class="metric">
+      <span>Support 2</span>
+      <b id="support2">--</b>
+    </div>
+
+    <div class="metric">
+      <span>ATM</span>
+      <b id="supportATM">--</b>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔴 Resistance</h2>
+
+    <div class="metric">
+      <span>Highest CE OI</span>
+      <b id="highestCE">--</b>
+    </div>
+
+    <div class="metric">
+      <span>Resistance 2</span>
+      <b id="resistance2">--</b>
+    </div>
+
+    <div class="metric">
+      <span>ATM</span>
+      <b id="resistanceATM">--</b>
+    </div>
+  </div>
+
 </div>
 
-<input
-id="riskpct"
-type="number"
-value="1"
-step="0.1"
->
-
-<button class="btn" onclick="risk()">
-Calculate Risk
-</button>
-
-<p id="riskout" class="reason"></p>
-
-</div>
-
-
+<!-- ASK AI -->
 <div class="card">
 
-<h2>Historical Analysis</h2>
+  <h2>💬 Ask AI</h2>
 
-<select>
+  <div class="ask">
+    <input
+      id="question"
+      placeholder="Example: Abhi trade lena chahiye?"
+      onkeydown="if(event.key==='Enter') askAI()"
+    >
+    <button onclick="askAI()">Ask</button>
+  </div>
 
-<option>Last 1 Month</option>
-<option>Last 3 Months</option>
-<option>Last 1 Year</option>
-<option>Last 3 Years</option>
-<option>Last 5 Years</option>
-<option>Last 10 Years</option>
-
-</select>
-
-<div class="small">
-Backtesting engine will be connected after the live analysis engine.
-Historical option-premium testing needs suitable historical option data.
-</div>
+  <div id="aiAnswer" class="answer">
+    Ask me about the current setup.
+  </div>
 
 </div>
 
-</div>
-
-
-<div id="ask" class="hidden">
-
+<!-- RISK -->
 <div class="card">
 
-<h2>Ask AI</h2>
+  <h2>🛡️ Risk Calculator</h2>
 
-<input
-id="q"
-placeholder="Abhi trade lena chahiye?"
->
+  <div class="grid">
 
-<button class="btn" onclick="ask()">
-🤖 Ask AI
-</button>
+    <div>
+      <label class="muted">Capital</label><br>
+      <input id="capital" type="number" value="100000">
+    </div>
 
-<div
-id="ans"
-class="reason"
-style="margin-top:18px"
->
-Ask me about the current market setup.
+    <div>
+      <label class="muted">Risk %</label><br>
+      <input id="riskPct" type="number" value="1" step="0.1">
+    </div>
+
+    <div>
+      <label class="muted">Entry</label><br>
+      <input id="riskEntry" type="number">
+    </div>
+
+    <div>
+      <label class="muted">SL</label><br>
+      <input id="riskSL" type="number">
+    </div>
+
+  </div>
+
+  <br>
+
+  <button onclick="calculateRisk()">Calculate</button>
+
+  <div id="riskResult" class="answer"></div>
+
 </div>
-
-</div>
-
-</div>
-
 
 <div class="footer">
-Educational decision-support prototype • Paper mode • Not financial advice
+  AI Options Pro • Educational / analytical tool • No guaranteed returns
 </div>
 
 </div>
-
 
 <script>
 
-const Q =
-'https://ai-options-pro-6sl9.vercel.app/api/kite/quote';
+/* ============================================================
+   API CONFIG
+============================================================ */
 
-const O =
-'https://ai-options-pro-6sl9.vercel.app/api/kite/option-chain';
+const API_BASE =
+  "https://ai-options-pro-6sl9.vercel.app";
 
-let md = null;
-let od = null;
-let busy = false;
+const QUOTE_API =
+  API_BASE + "/api/kite/quote";
 
+const OPTION_API =
+  API_BASE + "/api/kite/option-chain";
 
-const $ = id =>
-document.getElementById(id);
-
-
-const fmt = (v,d=2) =>
-v==null || v==='' || isNaN(v)
-? '--'
-: Number(v).toLocaleString(
-'en-IN',
-{
-minimumFractionDigits:d,
-maximumFractionDigits:d
-}
-);
+const TECHNICAL_API =
+  API_BASE + "/api/kite/technical";
 
 
-function tab(t,b){
+/* ============================================================
+   GLOBAL STATE
+============================================================ */
 
-$('dash').classList.toggle(
-'hidden',
-t!=='dash'
-);
+let state = {
 
-$('ask').classList.toggle(
-'hidden',
-t!=='ask'
-);
+  symbol: "BANKNIFTY",
 
-document
-.querySelectorAll('.tab')
-.forEach(x =>
-x.classList.remove('active')
-);
+  quote: null,
 
-b.classList.add('active');
+  technical: null,
 
+  optionChain: null,
+
+  analysis: null
+
+};
+
+
+/* ============================================================
+   HELPERS
+============================================================ */
+
+function $(id){
+  return document.getElementById(id);
 }
 
+function number(v){
 
-async function get(url,ms=12000){
+  const n = Number(v);
 
-let c = new AbortController();
-
-let tm =
-setTimeout(
-()=>c.abort(),
-ms
-);
-
-try{
-
-let r =
-await fetch(
-url,
-{
-cache:'no-store',
-signal:c.signal
-}
-);
-
-let tx =
-await r.text();
-
-let x;
-
-try{
-
-x =
-JSON.parse(tx);
-
-}
-catch(e){
-
-throw Error(
-'Invalid server response (HTTP '+r.status+')'
-);
+  return Number.isFinite(n) ? n : null;
 
 }
 
-if(
-!r.ok ||
-x.status!=='success'
-){
+function fmt(v, decimals=2){
 
-throw Error(
-x.message ||
-'API request failed'
-);
+  if(v === null || v === undefined || !Number.isFinite(Number(v))){
+    return "--";
+  }
 
-}
-
-return x;
+  return Number(v).toLocaleString("en-IN",{
+    minimumFractionDigits:decimals,
+    maximumFractionDigits:decimals
+  });
 
 }
 
-catch(e){
+function fmtOI(v){
 
-if(
-e.name==='AbortError'
-){
+  if(v === null || v === undefined){
+    return "--";
+  }
 
-throw Error(
-'Request timed out. Tap Refresh and try again.'
-);
+  const n = Number(v);
+
+  if(!Number.isFinite(n)){
+    return "--";
+  }
+
+  if(Math.abs(n)>=10000000)
+    return (n/10000000).toFixed(2)+"Cr";
+
+  if(Math.abs(n)>=100000)
+    return (n/100000).toFixed(2)+"L";
+
+  if(Math.abs(n)>=1000)
+    return (n/1000).toFixed(1)+"K";
+
+  return n.toLocaleString("en-IN");
 
 }
 
-throw e;
+function clamp(x,min,max){
 
-}
-
-finally{
-
-clearTimeout(tm);
-
-}
+  return Math.max(min,Math.min(max,x));
 
 }
 
 
-async function loadAll(){
+/* ============================================================
+   CONNECTION
+============================================================ */
 
-if(busy)
-return;
+function setConnection(ok){
 
-busy=true;
+  const el = $("connection");
 
-$('status').textContent =
-'Loading live data...';
+  if(ok){
 
-$('status').className =
-'status yellow';
+    el.textContent = "● Kite Connected";
+    el.className = "status ok";
 
-$('body').innerHTML =
-'<tr><td colspan="5">Loading option chain...</td></tr>';
+  }else{
 
+    el.textContent = "● Connection Error";
+    el.className = "status bad";
 
-try{
-
-let [a,b] =
-await Promise.allSettled(
-[
-get(Q),
-get(O)
-]
-);
-
-
-if(
-a.status==='fulfilled'
-){
-
-renderM(a.value);
-
-}
-
-else{
-
-$('status').textContent =
-'🔴 Market data error: '+
-a.reason.message;
-
-$('status').className =
-'status red';
+  }
 
 }
 
 
-if(
-b.status==='fulfilled'
-){
+/* ============================================================
+   QUOTE
+============================================================ */
 
-renderO(b.value);
+async function loadQuotes(){
 
-}
+  try{
 
-else{
+    const r = await fetch(
+      QUOTE_API + "?t=" + Date.now(),
+      {cache:"no-store"}
+    );
 
-$('body').innerHTML =
-'<tr><td colspan="5" class="err">'+
-'Option chain error: '+
-esc(b.reason.message)+
-'</td></tr>';
+    const data = await r.json();
 
-od=null;
+    if(data.status !== "success"){
 
-}
+      throw new Error(
+        data.message || "Quote API error"
+      );
 
+    }
 
-signal();
+    state.quote = data.data;
 
-}
+    renderQuotes();
 
-finally{
+    setConnection(true);
 
-busy=false;
+    return data;
 
-}
+  }catch(err){
 
-}
+    console.error(err);
 
+    setConnection(false);
 
-function renderM(x){
+    $("marketWarning").style.display = "block";
 
-md=x.data;
+    $("marketWarning").textContent =
+      "⚠️ Market data unavailable: " + err.message;
 
-$('bank').textContent =
-fmt(
-md['NSE:NIFTY BANK']?.last_price
-);
+    return null;
 
-$('nifty').textContent =
-fmt(
-md['NSE:NIFTY 50']?.last_price
-);
-
-$('status').textContent =
-'🟢 Kite Connected';
-
-$('status').className =
-'status green';
-
-$('time').textContent =
-new Date().toLocaleTimeString();
+  }
 
 }
 
 
-function renderO(x){
+function getQuote(symbol){
 
-od=x;
+  if(!state.quote) return null;
 
-$('atm').textContent =
-fmt(
-x.atm_strike,
-0
-);
+  const key =
+    symbol === "NIFTY"
+      ? "NSE:NIFTY 50"
+      : "NSE:NIFTY BANK";
 
-$('exp').textContent =
-x.expiry || '--';
-
-$('body').innerHTML='';
-
-
-(x.data||[]).forEach(r=>{
-
-let ce =
-r.CE || {};
-
-let pe =
-r.PE || {};
-
-let tr =
-document.createElement('tr');
-
-
-if(
-+r.strike ===
-+x.atm_strike
-){
-
-tr.className='atm';
+  return state.quote[key] || null;
 
 }
 
 
-tr.innerHTML =
+function renderQuotes(){
 
-`<td class="ce">
-${fmt(ce.ltp)}
-</td>
+  const bank = getQuote("BANKNIFTY");
+  const nifty = getQuote("NIFTY");
 
-<td class="ce">
-${fmt(ce.oi,0)}
-</td>
+  if(bank){
 
-<td>
-<b>
-${fmt(r.strike,0)}
-</b>
-</td>
+    $("bankPrice").textContent =
+      fmt(bank.last_price);
 
-<td class="pe">
-${fmt(pe.oi,0)}
-</td>
+  }
 
-<td class="pe">
-${fmt(pe.ltp)}
-</td>`;
+  if(nifty){
 
+    $("niftyPrice").textContent =
+      fmt(nifty.last_price);
 
-$('body')
-.appendChild(tr);
+  }
 
-});
+  const selected =
+    getQuote(state.symbol);
 
-}
+  if(selected){
 
+    $("selectedPrice").textContent =
+      fmt(selected.last_price);
 
-function signal(){
+  }
 
-if(
-!od?.data?.length
-){
+  $("selectedSymbol").textContent =
+    state.symbol;
 
-$('signal').textContent =
-'WAIT';
-
-$('score').textContent =
-'Score: --';
-
-$('why').textContent =
-'Option-chain data is not available yet.';
-
-return;
+  $("lastUpdate").textContent =
+    "Updated: " +
+    new Date().toLocaleTimeString();
 
 }
 
 
-let ceoi=0;
-let peoi=0;
+/* ============================================================
+   TECHNICAL DATA
+============================================================ */
 
-let maxc=0;
-let maxp=0;
+async function loadTechnical(){
 
-let res=null;
-let sup=null;
+  try{
 
+    const r = await fetch(
+      TECHNICAL_API +
+      "?timeframe=5minute&t=" +
+      Date.now(),
+      {cache:"no-store"}
+    );
 
-od.data.forEach(r=>{
+    const data = await r.json();
 
-let c =
-+(r.CE?.oi||0);
+    if(data.status !== "success"){
 
-let p =
-+(r.PE?.oi||0);
+      throw new Error(
+        data.message || "Technical API error"
+      );
 
-ceoi += c;
-peoi += p;
+    }
 
+    state.technical = data;
 
-if(c>maxc){
+    return data;
 
-maxc=c;
-res=+r.strike;
+  }catch(err){
 
-}
+    console.error(
+      "Technical error:",
+      err
+    );
 
+    return null;
 
-if(p>maxp){
-
-maxp=p;
-sup=+r.strike;
-
-}
-
-});
-
-
-let pcr =
-ceoi
-? peoi/ceoi
-: 0;
-
-let bank =
-+od.banknifty;
-
-let atm =
-+od.atm_strike;
-
-let score=50;
-
-let bias='NEUTRAL';
-
-let rs=[];
-
-
-if(pcr>=1.3){
-
-score+=20;
-bias='BULLISH';
-
-rs.push(
-'PCR is above 1.30'
-);
-
-}
-
-else if(pcr>=1.1){
-
-score+=10;
-bias='MILD BULLISH';
-
-rs.push(
-'PCR is mildly bullish'
-);
-
-}
-
-else if(pcr<=.75){
-
-score-=20;
-bias='BEARISH';
-
-rs.push(
-'PCR is below 0.75'
-);
-
-}
-
-else if(pcr<=.9){
-
-score-=10;
-bias='MILD BEARISH';
-
-rs.push(
-'PCR is mildly bearish'
-);
-
-}
-
-else{
-
-rs.push(
-'PCR is relatively neutral'
-);
+  }
 
 }
 
 
-if(bank>atm){
+/* ============================================================
+   CANDLE NORMALIZATION
+============================================================ */
 
-score+=5;
+function getCandles(){
 
-rs.push(
-'BANKNIFTY is above ATM'
-);
+  if(!state.technical)
+    return [];
 
-}
+  const key =
+    state.symbol === "NIFTY"
+      ? "nifty"
+      : "banknifty";
 
-else if(bank<atm){
+  let candles =
+    state.technical[key]?.candles || [];
 
-score-=5;
+  return candles.map(c => {
 
-rs.push(
-'BANKNIFTY is below ATM'
-);
+    return {
 
-}
+      time:c[0],
 
+      open:Number(c[1]),
 
-if(
-res!=null &&
-Math.abs(bank-res)<=300
-){
+      high:Number(c[2]),
 
-score-=5;
+      low:Number(c[3]),
 
-rs.push(
-'Price is close to major CE OI resistance'
-);
+      close:Number(c[4]),
 
-}
+      volume:Number(c[5] || 0)
 
+    };
 
-if(
-sup!=null &&
-Math.abs(bank-sup)<=300
-){
-
-score+=5;
-
-rs.push(
-'Price is close to major PE OI support'
-);
+  }).filter(c =>
+    Number.isFinite(c.close)
+  );
 
 }
 
 
-score =
-Math.max(
-0,
-Math.min(
-100,
-Math.round(score)
-)
-);
+/* ============================================================
+   EMA
+============================================================ */
 
+function calculateEMA(values, period){
 
-let d =
-score>=75
-? 'CALL'
-: score<=25
-? 'PUT'
-: 'WAIT';
+  if(values.length < period)
+    return null;
 
+  const multiplier =
+    2 / (period + 1);
 
-$('signal').textContent =
-d;
+  let ema =
 
-$('signal').className =
-'signal '+
-(
-d==='CALL'
-? 'green'
-: d==='PUT'
-? 'red'
-: 'yellow'
-);
+    values
+      .slice(0,period)
+      .reduce((a,b)=>a+b,0)
+    / period;
 
+  for(let i=period;i<values.length;i++){
 
-$('score').textContent =
-'Score: '+
-score+
-'/100';
+    ema =
+      (values[i]-ema)*multiplier
+      + ema;
 
+  }
 
-$('pcr').textContent =
-pcr.toFixed(2);
-
-$('bias').textContent =
-bias;
-
-$('res').textContent =
-res==null
-? '--'
-: fmt(res,0);
-
-$('sup').textContent =
-sup==null
-? '--'
-: fmt(sup,0);
-
-$('ceoi').textContent =
-fmt(ceoi,0);
-
-$('peoi').textContent =
-fmt(peoi,0);
-
-
-$('why').innerHTML =
-
-'<b>'+
-d+
-'</b> — score '+
-score+
-'/100.<br>'+
-
-rs
-.map(esc)
-.join('<br>')+
-
-(
-new Date().getDay()%6===0
-
-?
-
-'<br><br><span class="yellow">'+
-'Market is closed now; live volume/change signals cannot be evaluated.'+
-'</span>'
-
-: ''
-
-);
+  return ema;
 
 }
 
 
-function risk(){
+/* ============================================================
+   RSI
+============================================================ */
 
-let c =
-+$('capital').value;
+function calculateRSI(values, period=14){
 
-let p =
-+$('riskpct').value;
+  if(values.length <= period)
+    return null;
 
+  let gains = 0;
+  let losses = 0;
 
-$('riskout').textContent =
+  for(let i=1;i<=period;i++){
 
-c>0 && p>0
+    const diff =
+      values[i]-values[i-1];
 
-?
+    if(diff>=0)
+      gains += diff;
+    else
+      losses += Math.abs(diff);
 
-'Maximum planned loss per trade: ₹'+
-fmt(c*p/100,0)+
-' (before brokerage/slippage).'
+  }
 
-:
+  let avgGain =
+    gains/period;
 
-'Enter valid capital and risk %.';
+  let avgLoss =
+    losses/period;
 
-}
+  for(let i=period+1;i<values.length;i++){
 
+    const diff =
+      values[i]-values[i-1];
 
-function ask(){
+    const gain =
+      diff>0 ? diff : 0;
 
-let q =
-$('q').value.trim();
+    const loss =
+      diff<0 ? Math.abs(diff) : 0;
 
+    avgGain =
+      ((avgGain*(period-1))+gain)/period;
 
-if(!od){
+    avgLoss =
+      ((avgLoss*(period-1))+loss)/period;
 
-$('ans').textContent =
-'Live option-chain data is not loaded yet. Tap Refresh Market Data first.';
+  }
 
-return;
+  if(avgLoss===0)
+    return 100;
 
-}
+  const rs =
+    avgGain/avgLoss;
 
-
-$('ans').innerHTML =
-
-'<b>Current setup:</b> '+
-$('signal').textContent+
-' | '+
-$('score').textContent+
-' | PCR '+
-$('pcr').textContent+
-
-'<br>CE resistance: '+
-$('res').textContent+
-
-' | PE support: '+
-$('sup').textContent+
-
-'<br><br>This is paper-mode OI/PCR analysis. Trend, VWAP, EMA, RSI, volume/OI change, volatility and risk controls should also be checked before any real trade.'+
-
-(
-q
-?
-
-'<br><br><b>Your question:</b> '+
-esc(q)
-
-:
-
-''
-
-);
+  return 100-(100/(1+rs));
 
 }
 
 
-function esc(s){
+/* ============================================================
+   ATR
+============================================================ */
 
-return String(s)
-.replace(
-/[&<>"']/g,
-c=>({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#039;'
-}[c])
-);
+function calculateATR(candles,period=14){
+
+  if(candles.length <= period)
+    return null;
+
+  const trs=[];
+
+  for(let i=1;i<candles.length;i++){
+
+    const c=candles[i];
+
+    const prev=candles[i-1];
+
+    const tr=Math.max(
+
+      c.high-c.low,
+
+      Math.abs(c.high-prev.close),
+
+      Math.abs(c.low-prev.close)
+
+    );
+
+    trs.push(tr);
+
+  }
+
+  if(trs.length<period)
+    return null;
+
+  let atr =
+    trs
+      .slice(0,period)
+      .reduce((a,b)=>a+b,0)/period;
+
+  for(let i=period;i<trs.length;i++){
+
+    atr =
+      ((atr*(period-1))+trs[i])
+      /period;
+
+  }
+
+  return atr;
 
 }
 
 
-loadAll();
+/* ============================================================
+   VWAP STYLE
+============================================================ */
+
+function calculateVWAP(candles){
+
+  /*
+    Index volume from Kite may be 0.
+    Therefore this is NOT used as a hard
+    signal confirmation.
+  */
+
+  const valid =
+    candles.filter(c=>c.volume>0);
+
+  if(!valid.length)
+    return null;
+
+  let pv=0;
+  let vol=0;
+
+  valid.forEach(c=>{
+
+    const typical =
+      (c.high+c.low+c.close)/3;
+
+    pv += typical*c.volume;
+
+    vol += c.volume;
+
+  });
+
+  return vol ? pv/vol : null;
+
+}
 
 
-setInterval(
-()=>{
+/* ============================================================
+   SUPPORT / RESISTANCE FROM CANDLES
+============================================================ */
 
-if(
-document.visibilityState==='visible'
-)
+function candleSupportResistance(candles){
 
-loadAll();
+  if(!candles.length)
+    return {
+      support:null,
+      resistance:null
+    };
 
-},
-30000
+  const recent =
+    candles.slice(-20);
+
+  const support =
+    Math.min(
+      ...recent.map(c=>c.low)
+    );
+
+  const resistance =
+    Math.max(
+      ...recent.map(c=>c.high)
+    );
+
+  return {
+    support,
+    resistance
+  };
+
+}
+
+
+/* ============================================================
+   OPTION CHAIN
+============================================================ */
+
+async function loadOptionChain(){
+
+  try{
+
+    const symbol =
+      state.symbol === "NIFTY"
+        ? "NIFTY"
+        : "BANKNIFTY";
+
+    const r = await fetch(
+
+      OPTION_API +
+      "?symbol=" +
+      encodeURIComponent(symbol) +
+      "&t=" +
+      Date.now(),
+
+      {cache:"no-store"}
+
+    );
+
+    const data =
+      await r.json();
+
+    if(data.status !== "success"){
+
+      throw new Error(
+        data.message ||
+        "Option chain error"
+      );
+
+    }
+
+    state.optionChain=data;
+
+    renderOptionChain();
+
+    return data;
+
+  }catch(err){
+
+    console.error(
+      "Option chain error:",
+      err
+    );
+
+    $("optionTable").innerHTML =
+      `<tr>
+        <td colspan="7">
+          Option chain unavailable
+        </td>
+      </tr>`;
+
+    return null;
+
+  }
+
+}
+
+
+/* ============================================================
+   OPTION ANALYSIS
+============================================================ */
+
+function normalizeOptions(){
+
+  const d =
+    state.optionChain;
+
+  if(!d)
+    return [];
+
+  let rows =
+    d.data ||
+    d.chain ||
+    d.options ||
+    [];
+
+  if(!Array.isArray(rows))
+    rows=[];
+
+  return rows.map(row=>{
+
+    return {
+
+      strike:Number(
+        row.strike ??
+        row.strike_price
+      ),
+
+      ce:row.CE || row.ce || {},
+
+      pe:row.PE || row.pe || {}
+
+    };
+
+  }).filter(x=>
+    Number.isFinite(x.strike)
+  );
+
+}
+
+
+function getOptionValue(obj,key){
+
+  if(!obj) return 0;
+
+  return Number(
+    obj[key] ??
+    obj[key.toLowerCase()] ??
+    0
+  );
+
+}
+
+
+function optionStats(){
+
+  const rows =
+    normalizeOptions();
+
+  if(!rows.length){
+
+    return {
+
+      rows:[],
+
+      atm:null,
+
+      pcr:null,
+
+      totalCE:0,
+
+      totalPE:0,
+
+      highestCE:null,
+
+      highestPE:null
+
+    };
+
+  }
+
+  let atm =
+    number(
+      state.optionChain.atm_strike
+    );
+
+  if(!atm){
+
+    const price =
+      getQuote(state.symbol)?.last_price;
+
+    atm =
+      rows.reduce(
+        (best,r)=>
+          Math.abs(r.strike-price)
+          <
+          Math.abs(best.strike-price)
+            ? r
+            : best,
+        rows[0]
+      ).strike;
+
+  }
+
+  let totalCE=0;
+  let totalPE=0;
+
+  rows.forEach(r=>{
+
+    totalCE +=
+      getOptionValue(r.ce,"oi");
+
+    totalPE +=
+      getOptionValue(r.pe,"oi");
+
+  });
+
+  const highestCE =
+    [...rows].sort(
+      (a,b)=>
+        getOptionValue(b.ce,"oi") -
+        getOptionValue(a.ce,"oi")
+    )[0];
+
+  const highestPE =
+    [...rows].sort(
+      (a,b)=>
+        getOptionValue(b.pe,"oi") -
+        getOptionValue(a.pe,"oi")
+    )[0];
+
+  return {
+
+    rows,
+
+    atm,
+
+    totalCE,
+
+    totalPE,
+
+    pcr:
+      totalCE
+        ? totalPE/totalCE
+        : null,
+
+    highestCE,
+
+    highestPE
+
+  };
+
+}
+
+
+/* ============================================================
+   RENDER OPTION CHAIN
+============================================================ */
+
+function renderOptionChain(){
+
+  const stats =
+    optionStats();
+
+  $("expiry").textContent =
+    state.optionChain.expiry ||
+    "--";
+
+  $("atm").textContent =
+    fmt(stats.atm,0);
+
+  $("totalCE").textContent =
+    fmtOI(stats.totalCE);
+
+  $("totalPE").textContent =
+    fmtOI(stats.totalPE);
+
+  $("highestCE").textContent =
+    stats.highestCE
+      ? fmt(stats.highestCE.strike,0)
+      : "--";
+
+  $("highestPE").textContent =
+    stats.highestPE
+      ? fmt(stats.highestPE.strike,0)
+      : "--";
+
+  $("support2").textContent =
+    getSecondPE(stats);
+
+  $("resistance2").textContent =
+    getSecondCE(stats);
+
+  $("supportATM").textContent =
+    fmt(stats.atm,0);
+
+  $("resistanceATM").textContent =
+    fmt(stats.atm,0);
+
+  const rows =
+    stats.rows;
+
+  if(!rows.length){
+
+    $("optionTable").innerHTML =
+      `<tr>
+        <td colspan="7">
+          No option data
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+  const selectedPrice =
+    getQuote(state.symbol)?.last_price;
+
+  let sorted =
+    [...rows].sort(
+      (a,b)=>a.strike-b.strike
+    );
+
+  /*
+    Show strikes around ATM.
+  */
+
+  if(stats.atm){
+
+    sorted =
+      sorted.filter(
+        r =>
+          Math.abs(
+            r.strike-stats.atm
+          )
+          <=
+          (state.symbol==="NIFTY"
+            ? 500
+            : 1000)
+      );
+
+  }
+
+  $("optionTable").innerHTML =
+    sorted.map(r=>{
+
+      const ceOI =
+        getOptionValue(r.ce,"oi");
+
+      const peOI =
+        getOptionValue(r.pe,"oi");
+
+      const ceLTP =
+        getOptionValue(r.ce,"last_price");
+
+      const peLTP =
+        getOptionValue(r.pe,"last_price");
+
+      const ceChg =
+        getOptionValue(
+          r.ce,
+          "change_in_oi"
+        );
+
+      const peChg =
+        getOptionValue(
+          r.pe,
+          "change_in_oi"
+        );
+
+      let cls="";
+
+      if(r.strike===stats.atm)
+        cls="atm";
+
+      if(
+        stats.highestCE &&
+        r.strike===stats.highestCE.strike
+      )
+        cls="resistance";
+
+      if(
+        stats.highestPE &&
+        r.strike===stats.highestPE.strike
+      )
+        cls="support";
+
+      return `
+        <tr class="${cls}">
+
+          <td class="ce">
+            ${fmtOI(ceOI)}
+          </td>
+
+          <td class="${ceChg>=0?'green':'red'}">
+            ${fmtOI(ceChg)}
+          </td>
+
+          <td class="ce">
+            ${fmt(ceLTP)}
+          </td>
+
+          <td class="strike">
+            ${fmt(r.strike,0)}
+          </td>
+
+          <td class="pe">
+            ${fmt(peLTP)}
+          </td>
+
+          <td class="${peChg>=0?'green':'red'}">
+            ${fmtOI(peChg)}
+          </td>
+
+          <td class="pe">
+            ${fmtOI(peOI)}
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+
+}
+
+
+/* ============================================================
+   SECOND OI LEVELS
+============================================================ */
+
+function getSecondPE(stats){
+
+  if(!stats.rows.length)
+    return "--";
+
+  const sorted =
+    [...stats.rows]
+      .sort(
+        (a,b)=>
+          getOptionValue(b.pe,"oi") -
+          getOptionValue(a.pe,"oi")
+      );
+
+  return sorted[1]
+    ? fmt(sorted[1].strike,0)
+    : "--";
+
+}
+
+
+function getSecondCE(stats){
+
+  if(!stats.rows.length)
+    return "--";
+
+  const sorted =
+    [...stats.rows]
+      .sort(
+        (a,b)=>
+          getOptionValue(b.ce,"oi") -
+          getOptionValue(a.ce,"oi")
+      );
+
+  return sorted[1]
+    ? fmt(sorted[1].strike,0)
+    : "--";
+
+}
+
+
+/* ============================================================
+   AI ANALYSIS ENGINE
+============================================================ */
+
+function calculateAnalysis(){
+
+  const candles =
+    getCandles();
+
+  if(candles.length<20){
+
+    return {
+
+      signal:"WAIT",
+
+      score:50,
+
+      why:["Not enough candle data"]
+
+    };
+
+  }
+
+  const closes =
+    candles.map(c=>c.close);
+
+  const current =
+    closes[closes.length-1];
+
+  const ema9 =
+    calculateEMA(closes,9);
+
+  const ema20 =
+    calculateEMA(closes,20);
+
+  const ema50 =
+    calculateEMA(closes,50);
+
+  const rsi =
+    calculateRSI(closes,14);
+
+  const atr =
+    calculateATR(candles,14);
+
+  const vwap =
+    calculateVWAP(candles);
+
+  const sr =
+    candleSupportResistance(candles);
+
+  const stats =
+    optionStats();
+
+  let score=50;
+
+  const reasons=[];
+
+  /*
+    TREND
+  */
+
+  let trend="SIDEWAYS";
+
+  if(
+    ema9 &&
+    ema20 &&
+    ema50
+  ){
+
+    if(
+      current>ema9 &&
+      ema9>ema20 &&
+      ema20>ema50
+    ){
+
+      trend="BULLISH";
+
+      score+=15;
+
+      reasons.push(
+        "Price is above EMA 9/20/50 and EMA alignment is bullish."
+      );
+
+    }
+    else if(
+      current<ema9 &&
+      ema9<ema20 &&
+      ema20<ema50
+    ){
+
+      trend="BEARISH";
+
+      score-=15;
+
+      reasons.push(
+        "Price is below EMA 9/20/50 and EMA alignment is bearish."
+      );
+
+    }
+    else{
+
+      reasons.push(
+        "EMA structure is mixed, so trend confirmation is weak."
+      );
+
+    }
+
+  }
+
+
+  /*
+    RSI
+  */
+
+  if(rsi!==null){
+
+    if(
+      rsi>=55 &&
+      rsi<=70
+    ){
+
+      score+=8;
+
+      reasons.push(
+        `RSI ${rsi.toFixed(1)} supports bullish momentum.`
+      );
+
+    }
+    else if(
+      rsi<=45 &&
+      rsi>=30
+    ){
+
+      score-=8;
+
+      reasons.push(
+        `RSI ${rsi.toFixed(1)} supports bearish momentum.`
+      );
+
+    }
+    else if(rsi>70){
+
+      reasons.push(
+        `RSI ${rsi.toFixed(1)} is overbought; chasing CALL is risky.`
+      );
+
+    }
+    else if(rsi<30){
+
+      reasons.push(
+        `RSI ${rsi.toFixed(1)} is oversold; chasing PUT is risky.`
+      );
+
+    }
+
+  }
+
+
+  /*
+    OPTION PCR
+  */
+
+  if(stats.pcr!==null){
+
+    if(stats.pcr>=1.25){
+
+      score+=10;
+
+      reasons.push(
+        `PCR ${stats.pcr.toFixed(2)} indicates stronger put-side OI.`
+      );
+
+    }
+    else if(stats.pcr>=1.05){
+
+      score+=5;
+
+      reasons.push(
+        `PCR ${stats.pcr.toFixed(2)} is mildly bullish.`
+      );
+
+    }
+    else if(stats.pcr<=0.75){
+
+      score-=10;
+
+      reasons.push(
+        `PCR ${stats.pcr.toFixed(2)} indicates stronger call-side OI.`
+      );
+
+    }
+    else if(stats.pcr<=0.90){
+
+      score-=5;
+
+      reasons.push(
+        `PCR ${stats.pcr.toFixed(2)} is mildly bearish.`
+      );
+
+    }
+    else{
+
+      reasons.push(
+        `PCR ${stats.pcr.toFixed(2)} is relatively neutral.`
+      );
+
+    }
+
+  }
+
+
+  /*
+    PRICE VS OI LEVELS
+  */
+
+  const highestCE =
+    stats.highestCE?.strike;
+
+  const highestPE =
+    stats.highestPE?.strike;
+
+  if(
+    highestPE &&
+    current>highestPE
+  ){
+
+    score+=5;
+
+    reasons.push(
+      `Price is above major PE OI support ${highestPE}.`
+    );
+
+  }
+
+  if(
+    highestCE &&
+    current<highestCE
+  ){
+
+    score-=5;
+
+    reasons.push(
+      `Price remains below major CE OI resistance ${highestCE}.`
+    );
+
+  }
+
+
+  /*
+    CANDLE BREAKOUT / BREAKDOWN
+  */
+
+  const previous =
+    candles.slice(-6,-1);
+
+  const previousHigh =
+    Math.max(
+      ...previous.map(c=>c.high)
+    );
+
+  const previousLow =
+    Math.min(
+      ...previous.map(c=>c.low)
+    );
+
+  let breakout=false;
+  let breakdown=false;
+
+  if(current>previousHigh){
+
+    breakout=true;
+
+    score+=10;
+
+    reasons.push(
+      "Recent 5-minute high has been broken."
+    );
+
+  }
+
+  if(current<previousLow){
+
+    breakdown=true;
+
+    score-=10;
+
+    reasons.push(
+      "Recent 5-minute low has been broken."
+    );
+
+  }
+
+
+  /*
+    VWAP
+  */
+
+  if(vwap){
+
+    if(current>vwap){
+
+      score+=4;
+
+      reasons.push(
+        "Price is above volume-based VWAP."
+      );
+
+    }
+    else if(current<vwap){
+
+      score-=4;
+
+      reasons.push(
+        "Price is below volume-based VWAP."
+      );
+
+    }
+
+  }
+
+
+  score =
+    clamp(
+      Math.round(score),
+      0,
+      100
+    );
+
+
+  /*
+    FINAL DECISION
+  */
+
+  let signal="WAIT";
+
+  /*
+    Strong confirmation required.
+  */
+
+  if(
+    score>=75 &&
+    trend==="BULLISH" &&
+    rsi!==null &&
+    rsi<72
+  ){
+
+    signal="CALL";
+
+  }
+  else if(
+    score<=25 &&
+    trend==="BEARISH" &&
+    rsi!==null &&
+    rsi>28
+  ){
+
+    signal="PUT";
+
+  }
+
+
+  /*
+    Extra safety:
+    If price is between major levels
+    and trend is mixed -> WAIT.
+  */
+
+  if(
+    trend==="SIDEWAYS" &&
+    !breakout &&
+    !breakdown
+  ){
+
+    signal="WAIT";
+
+  }
+
+
+  /*
+    TRADE PLAN
+  */
+
+  let entry=null;
+  let sl=null;
+  let target1=null;
+  let target2=null;
+  let rr=null;
+
+  if(
+    signal==="CALL" &&
+    atr
+  ){
+
+    entry=current;
+
+    sl=
+      current-
+      atr*1.0;
+
+    target1=
+      current+
+      atr*1.5;
+
+    target2=
+      current+
+      atr*2.5;
+
+    rr=
+      ((target1-entry)/
+      (entry-sl));
+
+  }
+
+  if(
+    signal==="PUT" &&
+    atr
+  ){
+
+    entry=current;
+
+    sl=
+      current+
+      atr*1.0;
+
+    target1=
+      current-
+      atr*1.5;
+
+    target2=
+      current-
+      atr*2.5;
+
+    rr=
+      ((entry-target1)/
+      (sl-entry));
+
+  }
+
+
+  if(signal==="WAIT"){
+
+    reasons.push(
+      "Multiple confirmations are not aligned, so the system is waiting instead of forcing a trade."
+    );
+
+  }
+
+
+  return {
+
+    signal,
+
+    score,
+
+    current,
+
+    ema9,
+
+    ema20,
+
+    ema50,
+
+    rsi,
+
+    atr,
+
+    vwap,
+
+    trend,
+
+    support:sr.support,
+
+    resistance:sr.resistance,
+
+    pcr:stats.pcr,
+
+    highestCE,
+
+    highestPE,
+
+    entry,
+
+    sl,
+
+    target1,
+
+    target2,
+
+    rr,
+
+    reasons
+
+  };
+
+}
+
+
+/* ============================================================
+   RENDER ANALYSIS
+============================================================ */
+
+function renderAnalysis(){
+
+  const a =
+    calculateAnalysis();
+
+  state.analysis=a;
+
+  $("signalTitle").textContent =
+    a.signal;
+
+  $("score").textContent =
+    a.score + "/100";
+
+  $("trend").textContent =
+    a.trend;
+
+  $("ema9").textContent =
+    fmt(a.ema9);
+
+  $("ema20").textContent =
+    fmt(a.ema20);
+
+  $("ema50").textContent =
+    fmt(a.ema50);
+
+  $("rsi").textContent =
+    fmt(a.rsi);
+
+  $("atr").textContent =
+    fmt(a.atr);
+
+  $("pcr").textContent =
+    fmt(a.pcr);
+
+  $("support").textContent =
+    fmt(a.support,0);
+
+  $("resistance").textContent =
+    fmt(a.resistance,0);
+
+  $("tradeDecision").textContent =
+    a.signal;
+
+  $("entry").textContent =
+    fmt(a.entry);
+
+  $("sl").textContent =
+    fmt(a.sl);
+
+  $("target1").textContent =
+    fmt(a.target1);
+
+  $("target2").textContent =
+    fmt(a.target2);
+
+  $("rr").textContent =
+    a.rr
+      ? a.rr.toFixed(2)+"R"
+      : "--";
+
+  $("signalSummary").textContent =
+    getSummary(a);
+
+  $("why").textContent =
+    a.reasons
+      .map((x,i)=>
+        `${i+1}. ${x}`
+      )
+      .join("\n");
+
+  const title =
+    $("signalTitle");
+
+  title.className =
+    "signal-title " +
+    (
+      a.signal==="CALL"
+        ? "green"
+        : a.signal==="PUT"
+          ? "red"
+          : "yellow"
+    );
+
+  $("score").className =
+    "score " +
+    (
+      a.score>=75
+        ? "green"
+        : a.score<=25
+          ? "red"
+          : "yellow"
+    );
+
+}
+
+
+/* ============================================================
+   SUMMARY
+============================================================ */
+
+function getSummary(a){
+
+  if(a.signal==="CALL"){
+
+    return `
+      Bullish setup detected.
+      Wait for confirmation around the calculated entry.
+      Use defined stop-loss.
+    `;
+
+  }
+
+  if(a.signal==="PUT"){
+
+    return `
+      Bearish setup detected.
+      Wait for confirmation around the calculated entry.
+      Use defined stop-loss.
+    `;
+
+  }
+
+  return `
+    No high-confidence setup currently.
+    WAIT is preferred until confirmations align.
+  `;
+
+}
+
+
+/* ============================================================
+   MARKET STATUS
+============================================================ */
+
+function updateMarketStatus(){
+
+  const now =
+    new Date();
+
+  const day =
+    now.getDay();
+
+  const hours =
+    now.getHours();
+
+  const minutes =
+    now.getMinutes();
+
+  const currentMinutes =
+    hours*60+minutes;
+
+  const open =
+    day>=1 &&
+    day<=5 &&
+    currentMinutes>=555 &&
+    currentMinutes<=930;
+
+  if(open){
+
+    $("marketStatus").textContent =
+      "OPEN";
+
+    $("marketStatus").className =
+      "price green small";
+
+    $("marketWarning").style.display =
+      "none";
+
+  }else{
+
+    $("marketStatus").textContent =
+      "CLOSED";
+
+    $("marketStatus").className =
+      "price yellow small";
+
+    $("marketWarning").style.display =
+      "block";
+
+    $("marketWarning").textContent =
+      "⚠️ Market is currently closed. Live trading signals should be treated as analysis only.";
+
+  }
+
+}
+
+
+/* ============================================================
+   CHANGE SYMBOL
+============================================================ */
+
+async function changeSymbol(){
+
+  state.symbol =
+    $("symbolSelect").value;
+
+  $("selectedSymbol").textContent =
+    state.symbol;
+
+  await loadOptionChain();
+
+  renderAnalysis();
+
+}
+
+
+/* ============================================================
+   COMPLETE REFRESH
+============================================================ */
+
+async function refreshAll(){
+
+  $("signalSummary").textContent =
+    "Updating market data...";
+
+  await loadQuotes();
+
+  await loadTechnical();
+
+  await loadOptionChain();
+
+  renderQuotes();
+
+  renderAnalysis();
+
+  updateMarketStatus();
+
+}
+
+
+/* ============================================================
+   ANALYZE BUTTON
+============================================================ */
+
+async function runAnalysis(){
+
+  await refreshAll();
+
+}
+
+
+/* ============================================================
+   ASK AI
+============================================================ */
+
+function askAI(){
+
+  const q =
+    $("question").value
+      .trim()
+      .toLowerCase();
+
+  const a =
+    state.analysis;
+
+  if(!a){
+
+    $("aiAnswer").textContent =
+      "Pehle market analysis load hone do.";
+
+    return;
+
+  }
+
+  if(!q){
+
+    $("aiAnswer").textContent =
+      "Question type karo.";
+
+    return;
+
+  }
+
+  let answer="";
+
+  if(
+    q.includes("trade") ||
+    q.includes("lena") ||
+    q.includes("entry")
+  ){
+
+    if(a.signal==="CALL"){
+
+      answer =
+`Current analysis CALL side ko support kar raha hai.
+
+Score: ${a.score}/100
+Trend: ${a.trend}
+RSI: ${fmt(a.rsi)}
+PCR: ${fmt(a.pcr)}
+
+Lekin direct market order lene ke bajay entry confirmation ka wait karo.
+Calculated Entry: ${fmt(a.entry)}
+SL: ${fmt(a.sl)}
+Target 1: ${fmt(a.target1)}
+Target 2: ${fmt(a.target2)}
+
+Agar breakout fail ho ya EMA structure reverse ho, trade avoid karo.`;
+
+    }
+    else if(a.signal==="PUT"){
+
+      answer =
+`Current analysis PUT side ko support kar raha hai.
+
+Score: ${a.score}/100
+Trend: ${a.trend}
+RSI: ${fmt(a.rsi)}
+PCR: ${fmt(a.pcr)}
+
+Entry confirmation ke bina chase mat karo.
+
+Calculated Entry: ${fmt(a.entry)}
+SL: ${fmt(a.sl)}
+Target 1: ${fmt(a.target1)}
+Target 2: ${fmt(a.target2)}
+
+Agar breakdown fail ho aur price EMA structure ke upar aa jaye, trade avoid karo.`;
+
+    }
+    else{
+
+      answer =
+`Abhi WAIT.
+
+Score: ${a.score}/100
+Trend: ${a.trend}
+RSI: ${fmt(a.rsi)}
+PCR: ${fmt(a.pcr)}
+
+Current indicators sufficiently aligned nahi hain.
+Isliye system forced CALL/PUT signal nahi de raha.
+
+Support: ${fmt(a.support,0)}
+Resistance: ${fmt(a.resistance,0)}
+
+Breakout/breakdown confirmation ke baad setup dobara evaluate karo.`;
+
+    }
+
+  }
+  else if(q.includes("call")){
+
+    answer =
+`CALL ke liye bullish confirmation chahiye:
+
+• Price EMA 9/20/50 ke upar
+• RSI generally 55–70
+• Bullish breakout
+• PE OI support
+• PCR supportive
+• Risk/Reward acceptable
+
+Current setup:
+Trend: ${a.trend}
+Score: ${a.score}/100
+PCR: ${fmt(a.pcr)}
+
+Current decision: ${a.signal}`;
+
+  }
+  else if(q.includes("put")){
+
+    answer =
+`PUT ke liye bearish confirmation chahiye:
+
+• Price EMA 9/20/50 ke neeche
+• RSI generally 30–45
+• Bearish breakdown
+• CE OI resistance
+• PCR bearish
+• Risk/Reward acceptable
+
+Current setup:
+Trend: ${a.trend}
+Score: ${a.score}/100
+PCR: ${fmt(a.pcr)}
+
+Current decision: ${a.signal}`;
+
+  }
+  else if(
+    q.includes("breakout") ||
+    q.includes("break")
+  ){
+
+    answer =
+`Current resistance: ${fmt(a.resistance,0)}
+Current support: ${fmt(a.support,0)}
+
+Breakout ke baad bhi immediately entry nahi leni chahiye.
+Breakout + candle close + EMA/RSI confirmation + option OI confirmation ko combine karna better hai.
+
+Current trend: ${a.trend}
+Current score: ${a.score}/100`;
+
+  }
+  else{
+
+    answer =
+`Current market analysis:
+
+Decision: ${a.signal}
+Score: ${a.score}/100
+Trend: ${a.trend}
+RSI: ${fmt(a.rsi)}
+PCR: ${fmt(a.pcr)}
+EMA9: ${fmt(a.ema9)}
+EMA20: ${fmt(a.ema20)}
+EMA50: ${fmt(a.ema50)}
+Support: ${fmt(a.support,0)}
+Resistance: ${fmt(a.resistance,0)}
+
+Question ko CALL, PUT, trade, entry, breakout ya market ke context mein pooch sakte ho.`;
+
+  }
+
+  $("aiAnswer").textContent =
+    answer;
+
+}
+
+
+/* ============================================================
+   RISK CALCULATOR
+============================================================ */
+
+function calculateRisk(){
+
+  const capital =
+    Number($("capital").value);
+
+  const riskPct =
+    Number($("riskPct").value);
+
+  const entry =
+    Number($("riskEntry").value);
+
+  const sl =
+    Number($("riskSL").value);
+
+  if(
+    !capital ||
+    !riskPct ||
+    !entry ||
+    !sl
+  ){
+
+    $("riskResult").textContent =
+      "Please enter all values.";
+
+    return;
+
+  }
+
+  const maxRisk =
+    capital*(riskPct/100);
+
+  const riskPerUnit =
+    Math.abs(entry-sl);
+
+  const quantity =
+    Math.floor(
+      maxRisk/riskPerUnit
+    );
+
+  $("riskResult").textContent =
+`Maximum allowed risk:
+₹${fmt(maxRisk)}
+
+Risk per unit:
+₹${fmt(riskPerUnit)}
+
+Maximum quantity:
+${quantity}
+
+Important:
+Actual option lot size, premium movement, brokerage and slippage must also be considered before placing an order.`;
+
+}
+
+
+/* ============================================================
+   AUTO REFRESH
+============================================================ */
+
+setInterval(()=>{
+
+  /*
+    Refresh every 60 seconds.
+  */
+
+  refreshAll();
+
+},60000);
+
+
+/* ============================================================
+   INITIAL LOAD
+============================================================ */
+
+window.addEventListener(
+  "load",
+  ()=>{
+
+    updateMarketStatus();
+
+    refreshAll();
+
+  }
 );
 
 </script>
